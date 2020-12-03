@@ -55,3 +55,8 @@ def note_to_midi(note):
 
 def sequence_to_midi(sequence):
     return [note_to_midi(note) for note in sequence]
+
+def unzip_sequence(seq):
+    notes = [s[0] for s in seq]
+    durations = [s[1] for s in seq]
+    return notes, durations
