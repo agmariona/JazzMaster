@@ -1,12 +1,13 @@
 import pandas as pd
 
 import util.util as util
+import util.globals as g
 
 db = pd.read_pickle('resources/compare.db')
 
 def get_matches(seq):
     ngram = midi_to_ngram(seq)
-    print(ngram)
+    print(f'\t{ngram}')
     matches = db[db.ngram==ngram]
     if matches.empty:
         print('Error: Match not found. Only exact matching supported.')
@@ -15,10 +16,12 @@ def get_matches(seq):
     # Information comes from *next* ngram
     to_drop = []
     for i, r in matches.iterrows():
-        if db.iloc[i].track != db.iloc[i+1].track:
+        if i+g.N_NGRAM > len(db):
+            to_drop.append(i)
+        elif db.iloc[i].track != db.iloc[i+g.N_NGRAM].track:
             to_drop.append(i)
     matches = matches.drop(to_drop)
-    matches = db.iloc[matches.index+1]
+    matches = db.iloc[matches.index+g.N_NGRAM]
 
     if matches.empty:
         print('Error: End of song.')

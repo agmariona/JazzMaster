@@ -60,3 +60,6 @@ def unzip_sequence(seq):
     notes = [s[0] for s in seq]
     durations = [s[1] for s in seq]
     return notes, durations
+
+def duration_to_sec(duration, bpm):
+    return duration / bpm * 60

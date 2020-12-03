@@ -1,16 +1,31 @@
+import fractions
+
+import util.util as util
+import util.globals as g
+
 track_hypothesis = None
+pos_hypothesis = 0
 
 def generate_harmony(matches):
-    global track_hypothesis
-    s = matches[matches.track == track_hypothesis]
-    if not s.empty:
-        r = s.sample().squeeze()
+    global track_hypothesis, pos_hypothesis
+
+    t = matches[matches.track == track_hypothesis]
+    if not t.empty:
+        p = t[t.position == (pos_hypothesis + g.N_NGRAM)]
+        if p.empty:
+            r = t.iloc[0]
+        else:
+            r = p.iloc[0]
+        pos_hypothesis = r.position
     else:
-        r = matches.sample().squeeze()
+        r = matches.iloc[0]
         track_hypothesis = r.track
+        pos_hypothesis = r.position
 
     harmony = r.harmony.split()
-    duration = list(map(float, r.duration.split()))
+    duration = [util.duration_to_sec(
+        float(fractions.Fraction(d)), track_bpms[track_hypothesis])
+        for d in r.duration.split()]
     harmony, duration = squeeze_harmony(harmony, duration)
 
     return harmony, duration
@@ -28,3 +43,9 @@ def squeeze_harmony(harmony, duration):
     squeezed_harmony.append(prev_chord)
     squeezed_duration.append(running_duration)
     return squeezed_harmony, squeezed_duration
+
+track_bpms = {
+    'take_the_a_train': 160,
+    'misty': 65,
+    'satin_doll': 120
+}

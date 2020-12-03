@@ -15,7 +15,7 @@ def play_chord(f, chord, root_pitch, duration):
     notes = sequence_to_midi(components)
     for note in notes:
         f.noteon(0, note, 127)
-    sleep(duration/2)
+    sleep(duration)
     for note in notes:
         f.noteoff(0, note)
 

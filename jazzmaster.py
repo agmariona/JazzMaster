@@ -25,5 +25,6 @@ while True:
 
     matches = compare.get_matches(notes)
     harmony, duration = generate.generate_harmony(matches)
+    print(harmony, duration)
     threading.Thread(target=play.play_progression,
         args=(harmony, duration)).start()
