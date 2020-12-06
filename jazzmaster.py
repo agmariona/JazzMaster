@@ -1,16 +1,16 @@
 import threading
 
-import midi_in
-import compare
-import generate
-import play
+import core.compare as compare
+import core.generate as generate
+import core.play as play
+import util.midi_in as midi_in
 import util.util as util
 
 pass_buffer = []
 pass_ready = [False]
 pass_cv = threading.Condition()
 
-print('Jazzmaster online.')
+print('JazzMaster online.')
 threading.Thread(target=midi_in.get_input,
     args=(pass_buffer, pass_ready, pass_cv)).start()
 

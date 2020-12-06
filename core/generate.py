@@ -1,7 +1,7 @@
 import fractions
 
 import util.util as util
-import util.globals as g
+import util.constants as c
 
 track_hypothesis = None
 pos_hypothesis = 0
@@ -11,7 +11,7 @@ def generate_harmony(matches):
 
     t = matches[matches.track == track_hypothesis]
     if not t.empty:
-        p = t[t.position == (pos_hypothesis + g.N_NGRAM)]
+        p = t[t.position == (pos_hypothesis + c.N_NGRAM)]
         if p.empty:
             r = t.iloc[0]
         else:

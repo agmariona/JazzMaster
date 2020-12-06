@@ -9,53 +9,11 @@ import scipy.signal as signal
 import select
 from scipy.fft import rfft, rfftfreq
 
+import util.constants as c
+
 SAVE_PATH = '/Users/agm/Documents/Harvard/ENG-SCI 100/JazzMaster/data/'
 
-F_SAMP = 8000 #2700
-FFT_N = 1024
-WIN_LEN = 278 # 278
-UNIT_DURATION = WIN_LEN/F_SAMP
-FREQS = {'E3'  : 164.81,
-         'F3'  : 174.61,
-         'F#3' : 185.00,
-         'G3'  : 196.00,
-         'G#3' : 207.65,
-         'A3'  : 220.00,
-         'A#3' : 233.08,
-         'B3'  : 246.94,
-         'C4'  : 261.63,
-         'C#4' : 277.18,
-         'D4'  : 293.66,
-         'D#4' : 311.13,
-         'E4'  : 329.63,
-         'F4'  : 349.23,
-         'F#4' : 369.99,
-         'G4'  : 392.00,
-         'G#4' : 415.30,
-         'A4'  : 440.00,
-         'A#4' : 466.16,
-         'B4'  : 493.88,
-         'C5'  : 523.25,
-         'C#5' : 554.37,
-         'D5'  : 587.33,
-         'D#5' : 622.25,
-         'E5'  : 659.25,
-         'F5'  : 698.46,
-         'F#5' : 739.99,
-         'G5'  : 783.99,
-         'G#5' : 830.61,
-         'A5'  : 880.00,
-         'A#5' : 932.33,
-         'B5'  : 987.77,
-         'C6'  : 1046.50,
-         'C#6' : 1108.73,
-         'D6'  : 1174.66,
-         'D#6' : 1244.51,
-         'E6'  : 1318.51}
-NOTES = {v:k for k,v in FREQS.items()}
-FFT_FREQS = rfftfreq(FFT_N, d=1/F_SAMP)
 DQ = queue.Queue()
-
 
 parser = argparse.ArgumentParser(add_help=False)
 parser.add_argument(
@@ -70,22 +28,21 @@ parser = argparse.ArgumentParser(
     formatter_class=argparse.RawDescriptionHelpFormatter,
     parents=[parser])
 parser.add_argument(
-    '-b', '--blocksize', type=int, metavar='NSAMP', default=50,
-    help='block size (default %(default) samples)')
-parser.add_argument(
     '-d', '--device', type=int,
     help='input device (numeric ID)')
-parser.add_argument(
-    '-g', '--gain', type=float, default=10,
-    help='initial gain factor (default %(default)s)')
+# parser.add_argument(
+#     '-b', '--blocksize', type=int, metavar='NSAMP', default=50,
+#     help='block size (default %(default) samples)')
+# parser.add_argument(
+#     '-g', '--gain', type=float, default=10,
+#     help='initial gain factor (default %(default)s)')
 args = parser.parse_args(remaining)
-
 
 def callback(indata, frames, time, status):
     if status:
         print(status, file=sys.stderr)
     if any(indata):
-        magnitude = np.abs(rfft(indata[:, 0], n=FFT_N))
+        magnitude = np.abs(rfft(indata[:, 0], n=c.FFT_N))
         DQ.put(magnitude)
 
 def plot_magnitude(magnitude, freqs):
@@ -117,14 +74,14 @@ def display_magnitude(magnitude, freqs, pitch):
 def plot_energy(energy):
     fig, ax_energy = plt.subplots()
     ax_energy.set_title('Weighted Energy')
-    ax_energy.plot(np.arange(energy.size*WIN_LEN/F_SAMP, step=WIN_LEN/F_SAMP),
-        energy, color='g')
+    ax_energy.plot(np.arange(energy.size*c.WIN_LEN/c.F_SAMP,
+        step=c.WIN_LEN/c.F_SAMP), energy, color='g')
     ax_energy.set_ylabel('Energy')
     ax_energy.set_xlabel('Time (s)')
     plt.show()
 
 def plot_onsets(energy_history, onsets):
-    time = np.arange(energy_history.size*WIN_LEN/F_SAMP, step=WIN_LEN/F_SAMP)
+    time = np.arange(energy_history.size*c.WIN_LEN/c.F_SAMP, step=c.WIN_LEN/c.F_SAMP)
     fig, ax_energy = plt.subplots()
     ax_energy.set_title('Weighted Energy')
     ax_energy.plot(time[:energy_history.size], energy_history, color='g')

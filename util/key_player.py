@@ -3,7 +3,7 @@ import fractions
 import keyboard
 import time
 
-import util.util as util
+import util as util
 
 note_to_key = {
     'GN3': 'w',

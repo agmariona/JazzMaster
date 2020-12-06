@@ -1,7 +1,7 @@
 import mido
 import stopwatch
 
-import util.globals as g
+import util.constants as c
 
 input_buffer = []
 timer = stopwatch.Stopwatch()
@@ -19,9 +19,9 @@ def get_input(pass_buffer, pass_ready, pass_cv):
                 if msg.note == current_note:
                     stop_note(current_note)
             with pass_cv:
-                if len(input_buffer) >= g.N_NGRAM:
-                    pass_buffer[:] = input_buffer[:g.N_NGRAM]
-                    input_buffer = input_buffer[g.N_NGRAM:]
+                if len(input_buffer) >= c.N_NGRAM:
+                    pass_buffer[:] = input_buffer[:c.N_NGRAM]
+                    input_buffer = input_buffer[c.N_NGRAM:]
                     pass_ready[0] = True
                     pass_cv.notify()
 

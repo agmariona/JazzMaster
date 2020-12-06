@@ -1,7 +1,7 @@
 import pandas as pd
 
 import util.util as util
-import util.globals as g
+import util.constants as c
 
 db = pd.read_pickle('resources/compare.db')
 
@@ -16,12 +16,12 @@ def get_matches(seq):
     # Information comes from *next* ngram
     to_drop = []
     for i, r in matches.iterrows():
-        if i+g.N_NGRAM > len(db):
+        if i+c.N_NGRAM > len(db):
             to_drop.append(i)
-        elif db.iloc[i].track != db.iloc[i+g.N_NGRAM].track:
+        elif db.iloc[i].track != db.iloc[i+c.N_NGRAM].track:
             to_drop.append(i)
     matches = matches.drop(to_drop)
-    matches = db.iloc[matches.index+g.N_NGRAM]
+    matches = db.iloc[matches.index+c.N_NGRAM]
 
     if matches.empty:
         print('Error: End of song.')
