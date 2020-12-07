@@ -3,8 +3,11 @@ from scipy import fft
 N_NGRAM = 5
 F_SAMP = 8000 #2700
 FFT_N = 1024
-WIN_LEN = 278 # 278
-UNIT_DURATION = WIN_LEN/F_SAMP
+RFFT_N = FFT_N//2 + 1
+F_WIN_LEN = 280 # 278
+T_WIN_FACTOR = 4
+T_WIN_LEN = 70
+UNIT_DURATION = T_WIN_LEN/F_SAMP # PROB WRONG
 FREQS = {'E3'  : 164.81,
          'F3'  : 174.61,
          'F#3' : 185.00,
@@ -42,5 +45,5 @@ FREQS = {'E3'  : 164.81,
          'D6'  : 1174.66,
          'D#6' : 1244.51,
          'E6'  : 1318.51}
-NOTES = {v:k for k,v in FREQS.items()}
-FFT_FREQS = fft.rfftfreq(FFT_N, d=1/F_SAMP)
+PITCHES = {v:k for k,v in FREQS.items()}
+RFFT_FREQS = fft.rfftfreq(FFT_N, d=1/F_SAMP)
