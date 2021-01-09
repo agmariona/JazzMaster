@@ -1,6 +1,7 @@
 import argparse
 from fractions import Fraction
 import xml.etree.ElementTree
+import constants
 
 kind_to_quality = {
     'major': '',
@@ -190,8 +191,7 @@ assert len(notes) == len(durations) == len(chords)
 
 fname = args.xml.split('/')[-1].split('.')[0]+'.txt'
 print(f'Writing {fname}.')
-txt_path = \
-    f'/Users/agm/Documents/Harvard/ENG-SCI 100/JazzMaster/library/txt/{fname}'
+txt_path = constants.PROJ_PATH + f'library/txt/{fname}'
 
 with open(txt_path, 'w') as f:
     for i in range(len(notes)):

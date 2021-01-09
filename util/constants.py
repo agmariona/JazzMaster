@@ -47,3 +47,4 @@ FREQS = {'E3'  : 164.81,
          'E6'  : 1318.51}
 PITCHES = {v:k for k,v in FREQS.items()}
 RFFT_FREQS = fft.rfftfreq(FFT_N, d=1/F_SAMP)
+PROJ_PATH = '/Users/agm/Documents/Harvard/ENG-SCI 100/JazzMaster/'
