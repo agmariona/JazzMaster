@@ -1,9 +1,11 @@
 import argparse
 import fractions
 import keyboard
+import threading
 import time
 
-import util as util
+import util.util as util
+from core import play
 
 note_to_key = {
     'GN3': 'w',
@@ -52,17 +54,26 @@ note_to_key = {
 
 parser = argparse.ArgumentParser(add_help=False)
 parser.add_argument('txt', type=str, help='path to .txt to convert')
+parser.add_argument('-b', type=int, default=120,
+    help='bpm to play at')
+parser.add_argument('-c', action='store_true', help='play chords')
 args = parser.parse_args()
 
 txt = open(args.txt)
-bpm, time_sig = txt.readline().split('/')
-bpm = float(bpm)
+bpm = args.b
 
-time.sleep(5)
+time.sleep(1)
 
+current_chord = None
 for line in txt:
     note, duration, chord = line.split()
     duration = float(fractions.Fraction(duration))
+
+    if args.c and chord != current_chord:
+            current_chord = chord
+            threading.Thread(target=play.play_chord_async,
+                args=(current_chord, 3)).start()
+
     if note[0] == 'R':
         time.sleep(util.duration_to_sec(duration, bpm))
     else:

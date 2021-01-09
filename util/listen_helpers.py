@@ -19,26 +19,22 @@ onset_hist = np.empty((0,), dtype=int)
 
 ### Plotters ###
 
-def plot_pitch(rfft, pitch, freq, magn):
+def plot_pitch(rfft, pitch, freq, magn, fname=None):
     fig, ax = plt.subplots()
-    ax.plot(c.RFFT_FREQS, rfft, color='b')
-    ax.scatter(freq, magn, color='r')
-    ax.set_title(f'RFFT Magnitude ({pitch})')
+    ax.plot(c.RFFT_FREQS/1000, rfft, color='b')
+    if magn > 0:
+        ax.scatter(freq/1000, magn, color='r')
+    ax.set_title(f'Single-Sided DFT of Audio Input')
     ax.set_ylabel('Magnitude')
-    ax.set_xlabel('Frequency (Hz)')
-    plt.show(block=False)
-    plt.pause(0.1)
-    plt.close()
+    ax.set_ylim([0,50])
+    ax.set_xlabel('Frequency (kHz)')
 
-def splot_pitch(rfft, pitch, freq, magn, fname):
-    fig, ax = plt.subplots()
-    ax.plot(c.RFFT_FREQS, rfft, color='b')
-    ax.scatter(freq, magn, color='r')
-    ax.set_title(f'RFFT Magnitude ({pitch})')
-    ax.set_ylabel('Magnitude')
-    ax.set_ylim([0,30])
-    ax.set_xlabel('Frequency (Hz)')
-    plt.savefig(SAVE_PATH+fname)
+    plt.tight_layout()
+    if fname:
+        plt.savefig(SAVE_PATH+fname, dpi=300)
+    else:
+        plt.show(block=False)
+        plt.pause(0.1)
     plt.close()
 
 HIST_SCROLL = 500
@@ -55,11 +51,13 @@ def plot_energy():
     ax.set_ylabel('Energy')
     ax.set_ylim([0, 5000])
     ax.set_xlabel('Time (s)')
+
+    plt.tight_layout()
     plt.show(block=False)
     plt.pause(0.1)
     plt.close()
 
-def plot_energy_with_onsets():
+def plot_energy_with_onsets(fname=None):
     current_energy = energy_hist[-HIST_SCROLL:]
     current_onsets = onset_hist[onset_hist > energy_hist.size-HIST_SCROLL]
     time_step = c.T_WIN_LEN/c.F_SAMP
@@ -71,16 +69,49 @@ def plot_energy_with_onsets():
         t_adjust = 0
 
     fig, ax = plt.subplots()
-    ax.plot(t[:current_energy.size], current_energy, color='g')
-    ax.scatter(t[current_onsets-t_adjust], energy_hist[current_onsets],
+    ax.plot(t[:current_energy.size], current_energy/1000, color='g')
+    ax.scatter(t[current_onsets-t_adjust], energy_hist[current_onsets]/1000,
         color='r')
-    ax.set_title('Weighted Energy')
-    ax.set_ylabel('Energy')
-    # ax.set_ylim([0, 5000])
+    ax.set_title('Weighted Energy of Audio Input')
+    ax.set_ylabel('Energy (Arbitrary Units)')
     ax.set_xlabel('Time (s)')
-    plt.show(block=False)
-    plt.pause(0.1)
+
+    plt.tight_layout()
+    if fname:
+        plt.savefig(SAVE_PATH+fname, dpi=300)
+    else:
+        plt.show(block=False)
+        plt.pause(0.1)
     plt.close()
+
+### Plot Drivers ###
+
+def save_pitch_resolution():
+    try:
+        pitch_index = onset_hist[-1] // c.T_WIN_FACTOR
+    except:
+        return
+    if pitch_hist.size > (pitch_index + 10):
+        for i in range(pitch_index-5, pitch_index+10):
+            plot_pitch(rfft_hist[i], pitch_hist[i], freq_hist[i], magn_hist[i],
+                fname=f'pitch_{i:03}_{i-pitch_index}')
+        exit()
+
+def save_onsets(n_onsets):
+    if onset_hist.size < n_onsets:
+        return
+    earliest_onset = onset_hist[-n_onsets]
+    time_step = c.T_WIN_LEN/c.F_SAMP
+    if energy_hist.size > HIST_SCROLL:
+        t_adjust = energy_hist.size - HIST_SCROLL
+    else:
+        t_adjust = 0
+    t = np.arange(max(0, energy_hist.size-HIST_SCROLL)*time_step,
+        energy_hist.size*time_step, step=time_step)
+    if earliest_onset-t_adjust > 100:
+        return
+    plot_energy_with_onsets(fname='energy_with_onsets')
+    exit()
 
 ### Sounddevice Callback and FFTs ###
 
@@ -155,7 +186,7 @@ def detect_onset():
             'Won\'t be able to resolve pitch.')
     onset_hist = np.append(onset_hist, current_onsets + start_index)
 
-## Other Helpers ###
+### Printers ###
 
 pitches_printed = 0
 def print_pitches():
@@ -166,16 +197,8 @@ def print_pitches():
             print(pitch_hist[onset_hist[pitches_printed] // c.T_WIN_FACTOR + 3])
             pitches_printed += 1
 
-def save_pitch_resolution():
-    try:
-        pitch_index = onset_hist[-1] // c.T_WIN_FACTOR
-    except:
-        return
-    if pitch_hist.size > (pitch_index + 10):
-        for i in range(pitch_index-5, pitch_index+10):
-            splot_pitch(rfft_hist[i], pitch_hist[i], freq_hist[i], magn_hist[i],
-                f'pitch_{i}_{i-pitch_index}')
-        exit()
+
+## Other Helpers ###
 
 def smooth_curve(data):
     N, Wn = signal.buttord(0.1, 0.3, 0.5, 40)

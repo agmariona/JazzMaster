@@ -10,19 +10,34 @@ for f in fs:
     sfid = f.sfload("resources/soundfont.sf2")
     f.program_select(0, sfid, 0, 0)
 
-def play_chord(f, chord, root_pitch, duration):
+def play_chord(chord, root_pitch, duration):
     components = chord.components_with_pitch(root_pitch)
     notes = util.sequence_to_midi(components)
     for note in notes:
-        f.noteon(0, note, 127)
+        fs[0].noteon(0, note, 127)
     sleep(duration)
     for note in notes:
-        f.noteoff(0, note)
+        fs[0].noteoff(0, note)
+
+async_playing = False
+async_notes = list()
+
+def play_chord_async(chord, root_pitch):
+    chord = pychord.Chord(chord)
+    global async_playing, async_notes
+    if async_playing:
+        for note in async_notes:
+            fs[0].noteoff(0, note)
+    async_playing = True
+    components = chord.components_with_pitch(root_pitch)
+    async_notes = util.sequence_to_midi(components)
+    for note in async_notes:
+        fs[0].noteon(0, note, 127)
 
 def play_progression(harmony, durations):
     chords = [pychord.Chord(c) for c in harmony]
     for c, d in zip(chords, durations):
-        play_chord(fs[0], c, 3, d)
+        play_chord(c, 3, d)
 
 def note_on(note):
     if type(note) == str:

@@ -39,7 +39,8 @@ if __name__ == '__main__':
             h.update_hist()
             h.detect_onset()
             h.print_pitches()
+            h.save_onsets(5)
 
-            # i += 1
+            #  i += 1
             # if (i%10==0):
             #     h.plot_energy_with_onsets()
