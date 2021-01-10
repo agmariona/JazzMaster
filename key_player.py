@@ -69,7 +69,7 @@ for line in txt:
     note, duration, chord = line.split()
     duration = float(fractions.Fraction(duration))
 
-    if args.c and chord != current_chord:
+    if args.c and chord != 'None' and chord != current_chord:
             current_chord = chord
             threading.Thread(target=play.play_chord_async,
                 args=(current_chord, 3)).start()
