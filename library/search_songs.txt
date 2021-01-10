@@ -1,7 +1,7 @@
 African Flower
 Afro Blue
 Afternoon In Paris
-Água De Beber
+Agua De Beber
 Airegin
 Alfie
 Alice In Wonderland
@@ -132,7 +132,7 @@ Footprints
 For All We Know
 For Heaven\'s Sake
 For Heavens Sake
-
+For Sentimental Reasons
 Forest Flower
 Four
 Four On Six
@@ -298,7 +298,7 @@ Nobody Knows You When You\'re Down And Out
 Nobody Knows You When Youre Down And Out
 Nostalgia In Times Square
 Nuages
-
+The Old Country
 Oleo
 Oliloqui Valley
 Once I Loved
@@ -392,7 +392,7 @@ Tell Me A Bedtime Story
 Thanks For The Memory
 That\'s Amore
 Thats Amore
-
+No Greater Love
 There Will Never Be Another You
 There\'ll Be Some Changes Made
 Therell Be Some Changes Made
@@ -462,7 +462,7 @@ Air Mail Special
 Alfie\'s Theme
 Alfies Theme
 All Alone
-
+My Heart Sings
 Alto Itis
 Another Star
 April Skies
@@ -601,7 +601,7 @@ The Folks Who Live On The Hill
 Four Brothers
 Fox Hunt
 Freight Trane
-Frenesí
+Frenesi
 The Frim Fram Sauce
 Funky
 Georgia On My Mind
@@ -985,7 +985,7 @@ Bein\' Green
 Bein Green
 Bernie\'s Tune
 Bernies Tune
-Bésame Mucho
+Besame Mucho
 The Best Thing For You
 The Best Things In Life Are Free
 Between The Devil And The Deep Blue Sea
@@ -1249,7 +1249,7 @@ Manhattan
 Marmaduke
 Mas Que Nada
 Masquerade
-
+The Masquerade Is Over
 Maybe I Should Change My Ways
 Mayreh
 Mean To Me
@@ -1261,7 +1261,7 @@ Mona Lisa
 Moon And Sand
 Moonlight Becomes You
 Moonlight In Vermont
-
+Moonlight Saving Time
 More
 More I Cannot Wish You
 Mountain Greenery
@@ -1369,7 +1369,7 @@ Teach Me Tonight
 Teen Town
 Telephone Song
 Ten Cents A Dance
-
+The Tender Trap
 That Old Black Magic
 That Old Feeling
 Theme For Ernie
@@ -1422,7 +1422,7 @@ Where Or When
 While We\'re Young
 While Were Young
 Whistle While You Work
-
+The White Cliffs Of Dover
 Whittlin\'
 Whittlin
 Who\'s Afraid Of The Big Bad Wolf?
@@ -1455,7 +1455,7 @@ Younger Than Springtime
 Across The Alley From The Alamo
 Adios
 After The Rain
-Águas De Março
+Aguas De Marco
 All Night Long
 All Too Soon
 Always True To You In My Fashion
@@ -1711,7 +1711,7 @@ Mad About Him Sad Without Him How Can I Be Glad Without Him Blues
 Mad About The Boy
 Make Believe
 The Man With The Horn
-Mañana
+Manana
 Manila
 Maybe This Time
 Maybe You\'ll Be There
@@ -1803,7 +1803,7 @@ Save Your Love For Me
 Screamin\' The Blues
 Screamin The Blues
 Senor Blues
-Señor Mouse
+Senor Mouse
 Serenade To A Bus Beat
 Serengeti Walk
 The Sermon
@@ -1942,7 +1942,7 @@ All I Do Is Dream Of You
 All My Life
 Almost Like Being In Love
 Alone Together
-
+Always Something There To Remind Me
 And All That Jazz
 And So It Goes
 Any Place I Hang My Hat Is Home
@@ -2346,7 +2346,7 @@ Strike Up The Band
 Song From M*A*S*H
 Song From MASH
 The Summer Knows
-
+A Summer Place
 Sunday
 Sunrise, Sunset
 Sunrise Sunset
@@ -2355,7 +2355,7 @@ Sweet Lorraine
 Swingin\' The Blues
 Swingin The Blues
 Taking A Chance On Love
-
+The Tender Trap
 Tequila
 That Certain Feeling
 That Face
@@ -2542,7 +2542,7 @@ Dont Wait Too Long
 Don\'t You Worry \'Bout A Thing
 Dont You Worry Bout A Thing
 Dream
-É Luxo Só
+E Luxo So
 East Coast Outpost
 Easy Does It
 Easy To Be Hard
@@ -2557,7 +2557,7 @@ Fifty Ways To Leave Your Lover
 Five Foot Two, Eyes Of Blue
 Five Foot Two Eyes Of Blue
 Flat Foot Floogee
-
+The Flintstones
 Fools Rush In
 For My Lady
 For You

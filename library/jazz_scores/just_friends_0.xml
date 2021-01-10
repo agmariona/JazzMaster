@@ -1,0 +1,1483 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 2.0 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">
+<score-partwise version="2.0">
+    <work>
+        <work-number></work-number>
+        <work-title></work-title>
+    </work>
+    <movement-number></movement-number>
+    <movement-title>Just Friends</movement-title>
+    <identification>
+        <creator type="composer">John Klenner</creator>
+        <creator type="poet"></creator>
+        <rights>All Rights Reserved</rights>
+        <encoding>
+            <software>Sibelius</software>
+            <software>Dolet for Sibelius 1.8</software>
+            <supports type="no" element="transpose"/>
+            <software>ProxyMusic 2.0 c</software>
+        </encoding>
+        <source>http://wikifonia.org/node/18516/revisions/24512/view</source>
+    </identification>
+    <part-list>
+        <score-part id="P1">
+            <part-name>[Unnamed (treble staff)]</part-name>
+        </score-part>
+    </part-list>
+    <part id="P1">
+        <measure number="1">
+            <attributes>
+                <divisions>768</divisions>
+                <key>
+                    <fifths>1</fifths>
+                    <mode>major</mode>
+                </key>
+                <time>
+                    <beats>4</beats>
+                    <beat-type>4</beat-type>
+                </time>
+                <clef>
+                    <sign>G</sign>
+                    <line>2</line>
+                </clef>
+            </attributes>
+            <note>
+                <rest/>
+                <duration>1536</duration>
+                <voice>1</voice>
+                <type>half</type>
+            </note>
+            <direction>
+                <direction-type>
+                    <words relative-x="8" default-y="25">G</words>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>B</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>1536</duration>
+                <voice>1</voice>
+                <type>half</type>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>Just</text>
+                </lyric>
+            </note>
+            <barline location="right">
+                <bar-style>light-light</bar-style>
+            </barline>
+        </measure>
+        <measure number="2">
+            <direction>
+                <direction-type>
+                    <words relative-x="8" default-y="25">Cmaj7</words>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>B</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>3072</duration>
+                <tie type="start"/>
+                <voice>1</voice>
+                <type>whole</type>
+                <notations>
+                    <tied type="start"/>
+                </notations>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>friends,</text>
+                </lyric>
+            </note>
+        </measure>
+        <measure number="3">
+            <note>
+                <pitch>
+                    <step>B</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>1536</duration>
+                <voice>1</voice>
+                <type>half</type>
+            </note>
+            <note>
+                <pitch>
+                    <step>A</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>512</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <time-modification>
+                    <actual-notes>3</actual-notes>
+                    <normal-notes>2</normal-notes>
+                </time-modification>
+                <notations>
+                    <tuplet type="start"/>
+                </notations>
+                <lyric number="1">
+                    <syllabic>middle</syllabic>
+                    <text>lov</text>
+                    <extend/>
+                </lyric>
+            </note>
+            <note>
+                <pitch>
+                    <step>B</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>512</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <time-modification>
+                    <actual-notes>3</actual-notes>
+                    <normal-notes>2</normal-notes>
+                </time-modification>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>ers</text>
+                </lyric>
+            </note>
+            <note>
+                <pitch>
+                    <step>A</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>512</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <time-modification>
+                    <actual-notes>3</actual-notes>
+                    <normal-notes>2</normal-notes>
+                </time-modification>
+                <notations>
+                    <tuplet type="stop"/>
+                </notations>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>no</text>
+                </lyric>
+            </note>
+        </measure>
+        <measure number="4">
+            <direction>
+                <direction-type>
+                    <words relative-x="8" default-y="25">Cm7</words>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>E</step>
+                    <alter>-1</alter>
+                    <octave>4</octave>
+                </pitch>
+                <duration>3072</duration>
+                <tie type="start"/>
+                <voice>1</voice>
+                <type>whole</type>
+                <notations>
+                    <tied type="start"/>
+                </notations>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>more,</text>
+                </lyric>
+            </note>
+        </measure>
+        <measure number="5">
+            <direction>
+                <direction-type>
+                    <words relative-x="8" default-y="25">F7</words>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>E</step>
+                    <alter>-1</alter>
+                    <octave>4</octave>
+                </pitch>
+                <duration>1536</duration>
+                <voice>1</voice>
+                <type>half</type>
+            </note>
+            <note>
+                <pitch>
+                    <step>A</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>1536</duration>
+                <voice>1</voice>
+                <type>half</type>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>just</text>
+                </lyric>
+            </note>
+        </measure>
+        <measure number="6">
+            <direction>
+                <direction-type>
+                    <words relative-x="8" default-y="25">Gmaj7</words>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>A</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>3072</duration>
+                <tie type="start"/>
+                <voice>1</voice>
+                <type>whole</type>
+                <notations>
+                    <tied type="start"/>
+                </notations>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>friends,</text>
+                </lyric>
+            </note>
+        </measure>
+        <measure number="7">
+            <note>
+                <pitch>
+                    <step>A</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>768</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+            </note>
+            <note>
+                <pitch>
+                    <step>A</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>768</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>but</text>
+                </lyric>
+            </note>
+            <note>
+                <pitch>
+                    <step>G</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>512</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <time-modification>
+                    <actual-notes>3</actual-notes>
+                    <normal-notes>2</normal-notes>
+                </time-modification>
+                <notations>
+                    <tuplet type="start"/>
+                </notations>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>not</text>
+                </lyric>
+            </note>
+            <note>
+                <pitch>
+                    <step>A</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>512</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <time-modification>
+                    <actual-notes>3</actual-notes>
+                    <normal-notes>2</normal-notes>
+                </time-modification>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>like</text>
+                </lyric>
+            </note>
+            <note>
+                <pitch>
+                    <step>G</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>512</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <time-modification>
+                    <actual-notes>3</actual-notes>
+                    <normal-notes>2</normal-notes>
+                </time-modification>
+                <notations>
+                    <tuplet type="stop"/>
+                </notations>
+                <lyric number="1">
+                    <syllabic>middle</syllabic>
+                    <text>be</text>
+                    <extend/>
+                </lyric>
+            </note>
+        </measure>
+        <measure number="8">
+            <direction>
+                <direction-type>
+                    <words relative-x="8" default-y="25">Bbm7</words>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>D</step>
+                    <alter>-1</alter>
+                    <octave>4</octave>
+                </pitch>
+                <duration>3072</duration>
+                <tie type="start"/>
+                <voice>1</voice>
+                <type>whole</type>
+                <notations>
+                    <tied type="start"/>
+                </notations>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>fore,</text>
+                </lyric>
+            </note>
+        </measure>
+        <measure number="9">
+            <direction>
+                <direction-type>
+                    <words relative-x="8" default-y="25">Eb7</words>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>D</step>
+                    <alter>-1</alter>
+                    <octave>4</octave>
+                </pitch>
+                <duration>2304</duration>
+                <voice>1</voice>
+                <type>half</type>
+                <dot/>
+            </note>
+            <note>
+                <pitch>
+                    <step>G</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>768</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>To</text>
+                </lyric>
+            </note>
+        </measure>
+        <measure number="10">
+            <direction>
+                <direction-type>
+                    <words relative-x="8" default-y="25">Am7</words>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>G</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>1152</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <dot/>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>think</text>
+                </lyric>
+            </note>
+            <note>
+                <pitch>
+                    <step>E</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>384</duration>
+                <voice>1</voice>
+                <type>eighth</type>
+                <beam number="1">end</beam>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>of</text>
+                </lyric>
+            </note>
+            <note>
+                <pitch>
+                    <step>G</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>1152</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <dot/>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>what</text>
+                </lyric>
+            </note>
+            <note>
+                <pitch>
+                    <step>E</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>384</duration>
+                <voice>1</voice>
+                <type>eighth</type>
+                <beam number="1">end</beam>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>we´ve</text>
+                </lyric>
+            </note>
+        </measure>
+        <measure number="11">
+            <direction>
+                <direction-type>
+                    <words relative-x="8" default-y="25">D7</words>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>F</step>
+                    <alter>1</alter>
+                    <octave>4</octave>
+                </pitch>
+                <duration>2304</duration>
+                <voice>1</voice>
+                <type>half</type>
+                <dot/>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>been</text>
+                </lyric>
+            </note>
+            <note>
+                <pitch>
+                    <step>F</step>
+                    <alter>1</alter>
+                    <octave>4</octave>
+                </pitch>
+                <duration>768</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>and</text>
+                </lyric>
+            </note>
+        </measure>
+        <measure number="12">
+            <direction>
+                <direction-type>
+                    <words relative-x="8" default-y="25">F#m7b5</words>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>F</step>
+                    <alter>1</alter>
+                    <octave>4</octave>
+                </pitch>
+                <duration>1152</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <dot/>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>not</text>
+                </lyric>
+            </note>
+            <note>
+                <pitch>
+                    <step>D</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>384</duration>
+                <voice>1</voice>
+                <type>eighth</type>
+                <beam number="1">end</beam>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>to</text>
+                </lyric>
+            </note>
+            <direction>
+                <direction-type>
+                    <words relative-x="8" default-y="25">B7</words>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>F</step>
+                    <alter>1</alter>
+                    <octave>4</octave>
+                </pitch>
+                <duration>1152</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <dot/>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>kiss</text>
+                </lyric>
+            </note>
+            <note>
+                <pitch>
+                    <step>D</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>384</duration>
+                <voice>1</voice>
+                <type>eighth</type>
+                <beam number="1">end</beam>
+                <lyric number="1">
+                    <syllabic>middle</syllabic>
+                    <text>a</text>
+                    <extend/>
+                </lyric>
+            </note>
+        </measure>
+        <measure number="13">
+            <direction>
+                <direction-type>
+                    <words relative-x="8" default-y="25">Em7</words>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>E</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>768</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>gain</text>
+                </lyric>
+            </note>
+            <note>
+                <pitch>
+                    <step>F</step>
+                    <alter>1</alter>
+                    <octave>4</octave>
+                </pitch>
+                <duration>768</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>seems</text>
+                </lyric>
+            </note>
+            <note>
+                <pitch>
+                    <step>G</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>768</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>like</text>
+                </lyric>
+            </note>
+            <note>
+                <pitch>
+                    <step>B</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>768</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <lyric number="1">
+                    <syllabic>middle</syllabic>
+                    <text>pre</text>
+                    <extend/>
+                </lyric>
+            </note>
+        </measure>
+        <measure number="14">
+            <direction>
+                <direction-type>
+                    <words relative-x="8" default-y="25">A9</words>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>E</step>
+                    <octave>5</octave>
+                </pitch>
+                <duration>1536</duration>
+                <voice>1</voice>
+                <type>half</type>
+                <lyric number="1">
+                    <syllabic>middle</syllabic>
+                    <text>tend</text>
+                    <extend/>
+                </lyric>
+            </note>
+            <note>
+                <pitch>
+                    <step>B</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>1536</duration>
+                <tie type="start"/>
+                <voice>1</voice>
+                <type>half</type>
+                <notations>
+                    <tied type="start"/>
+                </notations>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>ing</text>
+                </lyric>
+            </note>
+        </measure>
+        <measure number="15">
+            <note>
+                <pitch>
+                    <step>B</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>768</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+            </note>
+            <note>
+                <pitch>
+                    <step>E</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>768</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <lyric number="1">
+                    <syllabic>middle</syllabic>
+                    <text>it</text>
+                    <extend/>
+                </lyric>
+            </note>
+            <note>
+                <pitch>
+                    <step>E</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>512</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <time-modification>
+                    <actual-notes>3</actual-notes>
+                    <normal-notes>2</normal-notes>
+                </time-modification>
+                <notations>
+                    <tuplet type="start"/>
+                </notations>
+                <lyric number="1">
+                    <syllabic>middle</syllabic>
+                    <text>is</text>
+                    <extend/>
+                </lyric>
+            </note>
+            <note>
+                <pitch>
+                    <step>F</step>
+                    <alter>1</alter>
+                    <octave>4</octave>
+                </pitch>
+                <duration>512</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <time-modification>
+                    <actual-notes>3</actual-notes>
+                    <normal-notes>2</normal-notes>
+                </time-modification>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>n´t</text>
+                </lyric>
+            </note>
+            <note>
+                <pitch>
+                    <step>G</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>512</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <time-modification>
+                    <actual-notes>3</actual-notes>
+                    <normal-notes>2</normal-notes>
+                </time-modification>
+                <notations>
+                    <tuplet type="stop"/>
+                </notations>
+                <lyric number="1">
+                    <syllabic>middle</syllabic>
+                    <text>the</text>
+                    <extend/>
+                </lyric>
+            </note>
+        </measure>
+        <measure number="16">
+            <direction>
+                <direction-type>
+                    <words relative-x="8" default-y="25">Am7</words>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>B</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>1536</duration>
+                <voice>1</voice>
+                <type>half</type>
+                <lyric number="1">
+                    <syllabic>middle</syllabic>
+                    <text>end</text>
+                    <extend/>
+                </lyric>
+            </note>
+            <direction>
+                <direction-type>
+                    <words relative-x="8" default-y="25">D7</words>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>A</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>1536</duration>
+                <tie type="start"/>
+                <voice>1</voice>
+                <type>half</type>
+                <notations>
+                    <tied type="start"/>
+                </notations>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>ing.</text>
+                </lyric>
+            </note>
+        </measure>
+        <measure number="17">
+            <direction>
+                <direction-type>
+                    <words relative-x="8" default-y="25">Dm7</words>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>A</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>1536</duration>
+                <voice>1</voice>
+                <type>half</type>
+            </note>
+            <direction>
+                <direction-type>
+                    <words relative-x="8" default-y="25">G7</words>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>B</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>1536</duration>
+                <voice>1</voice>
+                <type>half</type>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>Two</text>
+                </lyric>
+            </note>
+        </measure>
+        <measure number="18">
+            <direction>
+                <direction-type>
+                    <words relative-x="8" default-y="25">Cmaj7</words>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>B</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>3072</duration>
+                <tie type="start"/>
+                <voice>1</voice>
+                <type>whole</type>
+                <notations>
+                    <tied type="start"/>
+                </notations>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>friends</text>
+                </lyric>
+            </note>
+        </measure>
+        <measure number="19">
+            <note>
+                <pitch>
+                    <step>B</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>1536</duration>
+                <voice>1</voice>
+                <type>half</type>
+            </note>
+            <note>
+                <pitch>
+                    <step>A</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>512</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <time-modification>
+                    <actual-notes>3</actual-notes>
+                    <normal-notes>2</normal-notes>
+                </time-modification>
+                <notations>
+                    <tuplet type="start"/>
+                </notations>
+                <lyric number="1">
+                    <syllabic>middle</syllabic>
+                    <text>drift</text>
+                    <extend/>
+                </lyric>
+            </note>
+            <note>
+                <pitch>
+                    <step>B</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>512</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <time-modification>
+                    <actual-notes>3</actual-notes>
+                    <normal-notes>2</normal-notes>
+                </time-modification>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>ing</text>
+                </lyric>
+            </note>
+            <note>
+                <pitch>
+                    <step>A</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>512</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <time-modification>
+                    <actual-notes>3</actual-notes>
+                    <normal-notes>2</normal-notes>
+                </time-modification>
+                <notations>
+                    <tuplet type="stop"/>
+                </notations>
+                <lyric number="1">
+                    <syllabic>middle</syllabic>
+                    <text>a</text>
+                    <extend/>
+                </lyric>
+            </note>
+        </measure>
+        <measure number="20">
+            <direction>
+                <direction-type>
+                    <words relative-x="8" default-y="25">Cm7</words>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>E</step>
+                    <alter>-1</alter>
+                    <octave>4</octave>
+                </pitch>
+                <duration>3072</duration>
+                <tie type="start"/>
+                <voice>1</voice>
+                <type>whole</type>
+                <notations>
+                    <tied type="start"/>
+                </notations>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>part,</text>
+                </lyric>
+            </note>
+        </measure>
+        <measure number="21">
+            <direction>
+                <direction-type>
+                    <words relative-x="8" default-y="25">F7</words>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>E</step>
+                    <alter>-1</alter>
+                    <octave>4</octave>
+                </pitch>
+                <duration>1536</duration>
+                <voice>1</voice>
+                <type>half</type>
+            </note>
+            <note>
+                <pitch>
+                    <step>A</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>1536</duration>
+                <voice>1</voice>
+                <type>half</type>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>Two</text>
+                </lyric>
+            </note>
+        </measure>
+        <measure number="22">
+            <direction>
+                <direction-type>
+                    <words relative-x="8" default-y="25">Gmaj7</words>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>A</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>3072</duration>
+                <tie type="start"/>
+                <voice>1</voice>
+                <type>whole</type>
+                <notations>
+                    <tied type="start"/>
+                </notations>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>friends,</text>
+                </lyric>
+            </note>
+        </measure>
+        <measure number="23">
+            <note>
+                <pitch>
+                    <step>A</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>768</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+            </note>
+            <note>
+                <pitch>
+                    <step>A</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>768</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>but</text>
+                </lyric>
+            </note>
+            <note>
+                <pitch>
+                    <step>G</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>512</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <time-modification>
+                    <actual-notes>3</actual-notes>
+                    <normal-notes>2</normal-notes>
+                </time-modification>
+                <notations>
+                    <tuplet type="start"/>
+                </notations>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>one</text>
+                </lyric>
+            </note>
+            <note>
+                <pitch>
+                    <step>A</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>512</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <time-modification>
+                    <actual-notes>3</actual-notes>
+                    <normal-notes>2</normal-notes>
+                </time-modification>
+                <lyric number="1">
+                    <syllabic>middle</syllabic>
+                    <text>bro</text>
+                    <extend/>
+                </lyric>
+            </note>
+            <note>
+                <pitch>
+                    <step>G</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>512</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <time-modification>
+                    <actual-notes>3</actual-notes>
+                    <normal-notes>2</normal-notes>
+                </time-modification>
+                <notations>
+                    <tuplet type="stop"/>
+                </notations>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>ken</text>
+                </lyric>
+            </note>
+        </measure>
+        <measure number="24">
+            <direction>
+                <direction-type>
+                    <words relative-x="8" default-y="25">Bbm7</words>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>D</step>
+                    <alter>-1</alter>
+                    <octave>4</octave>
+                </pitch>
+                <duration>3072</duration>
+                <tie type="start"/>
+                <voice>1</voice>
+                <type>whole</type>
+                <notations>
+                    <tied type="start"/>
+                </notations>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>heart,</text>
+                </lyric>
+            </note>
+        </measure>
+        <measure number="25">
+            <direction>
+                <direction-type>
+                    <words relative-x="8" default-y="25">Eb7</words>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>D</step>
+                    <alter>-1</alter>
+                    <octave>4</octave>
+                </pitch>
+                <duration>2304</duration>
+                <voice>1</voice>
+                <type>half</type>
+                <dot/>
+            </note>
+            <note>
+                <pitch>
+                    <step>G</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>768</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>We</text>
+                </lyric>
+            </note>
+        </measure>
+        <measure number="26">
+            <direction>
+                <direction-type>
+                    <words relative-x="8" default-y="25">Am7</words>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>G</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>1152</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <dot/>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>loved,</text>
+                </lyric>
+            </note>
+            <note>
+                <pitch>
+                    <step>E</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>384</duration>
+                <voice>1</voice>
+                <type>eighth</type>
+                <beam number="1">end</beam>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>we</text>
+                </lyric>
+            </note>
+            <note>
+                <pitch>
+                    <step>G</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>1152</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <dot/>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>laughed,</text>
+                </lyric>
+            </note>
+            <note>
+                <pitch>
+                    <step>E</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>384</duration>
+                <voice>1</voice>
+                <type>eighth</type>
+                <beam number="1">end</beam>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>we</text>
+                </lyric>
+            </note>
+        </measure>
+        <measure number="27">
+            <direction>
+                <direction-type>
+                    <words relative-x="8" default-y="25">D7</words>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>F</step>
+                    <alter>1</alter>
+                    <octave>4</octave>
+                </pitch>
+                <duration>2304</duration>
+                <voice>1</voice>
+                <type>half</type>
+                <dot/>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>cried,</text>
+                </lyric>
+            </note>
+            <note>
+                <pitch>
+                    <step>A</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>768</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>and</text>
+                </lyric>
+            </note>
+        </measure>
+        <measure number="28">
+            <direction>
+                <direction-type>
+                    <words relative-x="8" default-y="25">F#m7b5</words>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>A</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>1152</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <dot/>
+                <lyric number="1">
+                    <syllabic>middle</syllabic>
+                    <text>sud</text>
+                    <extend/>
+                </lyric>
+            </note>
+            <note>
+                <pitch>
+                    <step>F</step>
+                    <alter>1</alter>
+                    <octave>4</octave>
+                </pitch>
+                <duration>384</duration>
+                <voice>1</voice>
+                <type>eighth</type>
+                <beam number="1">end</beam>
+                <lyric number="1">
+                    <syllabic>middle</syllabic>
+                    <text>den</text>
+                    <extend/>
+                </lyric>
+            </note>
+            <direction>
+                <direction-type>
+                    <words relative-x="8" default-y="25">B7</words>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>A</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>1152</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <dot/>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>ly</text>
+                </lyric>
+            </note>
+            <note>
+                <pitch>
+                    <step>F</step>
+                    <alter>1</alter>
+                    <octave>4</octave>
+                </pitch>
+                <duration>384</duration>
+                <voice>1</voice>
+                <type>eighth</type>
+                <beam number="1">end</beam>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>love</text>
+                </lyric>
+            </note>
+        </measure>
+        <measure number="29">
+            <direction>
+                <direction-type>
+                    <words relative-x="8" default-y="25">Em7</words>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>G</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>768</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>dies,</text>
+                </lyric>
+            </note>
+            <note>
+                <pitch>
+                    <step>A</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>768</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>The</text>
+                </lyric>
+            </note>
+            <note>
+                <pitch>
+                    <step>B</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>768</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <lyric number="1">
+                    <syllabic>middle</syllabic>
+                    <text>sto</text>
+                    <extend/>
+                </lyric>
+            </note>
+            <note>
+                <pitch>
+                    <step>D</step>
+                    <octave>5</octave>
+                </pitch>
+                <duration>768</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>ry</text>
+                </lyric>
+            </note>
+        </measure>
+        <measure number="30">
+            <direction>
+                <direction-type>
+                    <words relative-x="8" default-y="25">A9</words>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>E</step>
+                    <octave>5</octave>
+                </pitch>
+                <duration>2304</duration>
+                <voice>1</voice>
+                <type>half</type>
+                <dot/>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>ends</text>
+                </lyric>
+            </note>
+            <note>
+                <pitch>
+                    <step>E</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>768</duration>
+                <voice>1</voice>
+                <type>quarter</type>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>and</text>
+                </lyric>
+            </note>
+        </measure>
+        <measure number="31">
+            <direction>
+                <direction-type>
+                    <words relative-x="8" default-y="25">Am7</words>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>D</step>
+                    <octave>5</octave>
+                </pitch>
+                <duration>1536</duration>
+                <voice>1</voice>
+                <type>half</type>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>we´re</text>
+                </lyric>
+            </note>
+            <direction>
+                <direction-type>
+                    <words relative-x="8" default-y="25">D7</words>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>B</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>1536</duration>
+                <voice>1</voice>
+                <type>half</type>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>just</text>
+                </lyric>
+            </note>
+        </measure>
+        <measure number="32">
+            <direction>
+                <direction-type>
+                    <words relative-x="8" default-y="25">G6</words>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>G</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>3072</duration>
+                <voice>1</voice>
+                <type>whole</type>
+                <notations>
+                    <slur type="start" number="1"/>
+                </notations>
+                <lyric number="1">
+                    <syllabic>end</syllabic>
+                    <text>friends.</text>
+                </lyric>
+            </note>
+        </measure>
+        <measure number="33">
+            <direction>
+                <direction-type>
+                    <words relative-x="8" default-y="25">Dm7</words>
+                </direction-type>
+            </direction>
+            <note>
+                <pitch>
+                    <step>G</step>
+                    <octave>4</octave>
+                </pitch>
+                <duration>1536</duration>
+                <voice>1</voice>
+                <type>half</type>
+                <notations>
+                    <slur type="stop" number="1"/>
+                </notations>
+            </note>
+            <direction>
+                <direction-type>
+                    <words relative-x="8" default-y="25">G7</words>
+                </direction-type>
+            </direction>
+            <note>
+                <rest/>
+                <duration>1536</duration>
+                <voice>1</voice>
+                <type>half</type>
+            </note>
+            <barline location="right">
+                <bar-style>light-heavy</bar-style>
+            </barline>
+        </measure>
+    </part>
+</score-partwise>
