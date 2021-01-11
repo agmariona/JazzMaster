@@ -9,6 +9,14 @@ import constants
 def remove_punct(s):
     return s.translate(str.maketrans('', '', string.punctuation))
 
+def as_single_quotes(s):
+    return s.translate(str.maketrans(
+                {"'": "\\'", '"': "\\'", '“': "\\'", '”': "\\'"}))
+
+def as_double_quotes(s):
+    return s.translate(str.maketrans(
+                {"'": '\\"', '"': '\\"', '“': '\\"', '”': '\\"'}))
+
 def as_proper_name(s):
     s = s.lower().strip()
     s = remove_punct(s)
@@ -35,11 +43,15 @@ if args.w:
             if not no_parens:
                 no_parens = inline.split(')')[-1].strip()
             no_parens = unidecode.unidecode(no_parens)
-            no_parens = \
-                no_parens.translate(str.maketrans(
-                    {"'": "\\'", '"': '\\"', '“': '\\"', '”': '\\"'}))
+            single_quotes = as_single_quotes(no_parens)
+            double_quotes = as_double_quotes(no_parens)
             no_punct = remove_punct(no_parens)
-            outfile.write(no_parens+'\n')
+            if single_quotes != no_parens:
+                outfile.write(single_quotes+'\n')
+                if double_quotes != single_quotes:
+                    outfile.write(double_quotes+'\n')
+            else:
+                outfile.write(no_parens+'\n')
             if no_punct != no_parens:
                 outfile.write(no_punct+'\n')
 

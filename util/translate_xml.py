@@ -17,11 +17,26 @@ if args.x:
 else:
     dirpath = constants.PROJ_PATH + 'library/jazz_scores'
     count = 0
+    err_count = 0
     for f in os.listdir(os.fsencode(dirpath)):
         filename = os.fsdecode(f)
         path = os.path.join(dirpath, filename)
-        xml_parser.parse_xml(path)
+        r = xml_parser.parse_xml(path)
+        if r == -1:
+            print(f'\tError translating {filename}: excess parts.')
+            err_count += 1
+        elif r == -2:
+            print(f'\tError translating {filename}: endings.')
+            err_count += 1
+        elif r == -3:
+            print(f'\tError translating {filename}: pitch formatting.')
+            err_count += 1
+        elif r == -4:
+            print(f'\tError translating {filename}: polyphonic.')
+            err_count += 1
+        else:
+            count += 1
 
-        count += 1
         if args.m and count == args.m:
             exit()
+    print(f'Translated {count} songs. Failed to translate {err_count} songs.')

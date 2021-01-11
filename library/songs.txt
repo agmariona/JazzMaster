@@ -341,7 +341,7 @@ Swedish Pastry
 Sweet Georgia Bright
 Sweet Henry
 Take Five
-Take The “A” Train
+Take The "A" Train
 Tame Thy Pen
 Tell Me A Bedtime Story
 Thanks For The Memory
@@ -1361,7 +1361,7 @@ If I Were Blue
 If You Could See Me Now
 If You Go
 In A Silent Way
-The “In” Crowd
+The "In" Crowd
 In The Arms Of Love
 In The Blue Of Evening
 Inner Space
@@ -1837,7 +1837,7 @@ My Reverie
 My Yiddishe Momme
 Near You
 Never My Love
-Theme From “New York, New York”
+Theme From "New York, New York"
 Nice 'n' Easy
 No Other Love
 Noreen's Nocturne
@@ -2343,7 +2343,7 @@ That's What Friends Are For
 Their Hearts Were Full Of Spring
 There! I've Said It Again
 There's A Boat Dat's Leavin' Soon For New York
-There's “Yes Yes” In Your Eyes
+There's "Yes Yes" In Your Eyes
 They Can't Take That Away From Me
 This Guy's In Love With You
 Three Coins In The Fountain

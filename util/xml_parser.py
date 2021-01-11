@@ -18,18 +18,36 @@ kind_to_quality = {
     'augmented': 'aug',
     'major-seventh': 'maj7',
     'diminished': 'dim',
-    'major-minor': 'mM7'
+    'major-minor': 'mM7',
+    None: '',
+    'dominant-13th': '13',
+    'minor-ninth': 'm9',
+    'major-ninth': 'maj9',
+    'dominant-11th': '11',
+    'dominant-seventh': '7',
+    'maj69': '69',
+    'minor-11th': 'm9',
+    'augmented-ninth': '9#5',
+    'suspended-second': 'sus2',
+    'minor-major': 'mM7',
+    'min': 'm',
+    ' ': '',
+    '7': '7',
+    'maj7': 'maj7',
+    'sus47': '7sus4',
+    'major-13th': 'maj9',
+    'power': '5',
+    'other': 'dim'
 }
 
 def parse_xml(path):
     fname = path.split('/')[-1].split('.')[0]+'.txt'
-    print(f'Processing {fname}.')
+    # print(f'Processing {fname}.')
 
     xml_tree = xml.etree.ElementTree.parse(path)
     parts = xml_tree.getroot().findall('part')
     if len(parts) > 1:
-        print('Error: Too many parts. Not sure how to distinguish.')
-        exit(1)
+        return -1
     elif len(parts) == 0:
         print('Error: No part found.')
         exit(1)
@@ -44,8 +62,9 @@ def parse_xml(path):
     i = 0
     repeat_start = 0
     repeated = False
+    repeat_count = 1
     current_chord = None
-    current_ending = 1
+    current_ending = None
     tied_note = None
     tied_duration = 0
     tied_chord = None
@@ -57,30 +76,54 @@ def parse_xml(path):
         duration_buf = list()
         chord_buf = list()
 
+        ending_failsafe_break = False
+
         for child in measures[i]:
             if child.tag == 'barline':
-                if child.find('ending') is not None:
-                    ending_number = int(child.find('ending').attrib['number'])
-                    # print(f'\tWorking with ending {ending_number}')
-                    if current_ending > ending_number:
-                        break
+                if child.find('ending') is not None and child.find('ending').attrib['type'] != 'discontinue':
+                    try:
+                        current_ending = int(child.find('ending').attrib['number'])
+                        if repeat_count > current_ending:
+                            break
+                        else:
+                            ending_failsafe_break = False
+                    except ValueError:
+                        try:
+                            if child.find('ending').attrib['number'][1] == '.':
+                                ending_numbers = [int(n) for n in
+                                    child.find('ending').attrib['number'].split('.') if n]
+                            else:
+                                ending_numbers = [int(n) for n in
+                                    child.find('ending').attrib['number'].split(', ')]
+
+                            if repeat_count > max(ending_numbers):
+                                break
+                            else:
+                                repeated = False
+                                current_ending = repeat_count + 1
+                                ending_failsafe_break = False
+                        except:
+                            return -2
 
                 if child.find('repeat') is not None:
                     direction = child.find('repeat').attrib['direction']
                     if direction == 'forward':
                         if not repeated:
                             repeat_start = i
-                        # print(f'\tRepeating with ending {current_ending}')
                     elif direction == 'backward':
                         if not repeated:
                             next_i = repeat_start
                             repeated = True
-                            current_ending += 1
+                            repeat_count += 1
+                            current_ending = None
                         elif child.find('ending') is None:
                             break
                     else:
                         print('Error: Unknown repeat direction.')
                         exit(1)
+
+            elif current_ending and repeat_count != current_ending:
+                ending_failsafe_break = True
 
             if child.tag == 'harmony':
                 root_step = child.find('root/root-step').text
@@ -110,7 +153,10 @@ def parse_xml(path):
                     elif pitch_alter.text == '1':
                         pitch_alter = '#'
                     pitch_octave = child.find('pitch/octave').text
-                    note = pitch_note + pitch_alter + pitch_octave
+                    try:
+                        note = pitch_note + pitch_alter + pitch_octave
+                    except:
+                        return -3
 
                 elif child.find('rest') is not None:
                     note = 'RNO'
@@ -119,7 +165,10 @@ def parse_xml(path):
                     print('Error: Note is not a rest but has no pitch.')
                     exit(1)
 
-                duration = int(child.find('duration').text)
+                try:
+                    duration = int(child.find('duration').text)
+                except AttributeError:
+                    return -4
 
                 tie_start = False
                 tie_stop = False
@@ -177,10 +226,11 @@ def parse_xml(path):
                 duration_buf.append(duration)
                 chord_buf.append(current_chord)
         else:
-            # print(f'Reading measure {i+1}')
-            notes += note_buf
-            durations += duration_buf
-            chords += chord_buf
+            if not ending_failsafe_break:
+                # print(f'Reading measure {i+1}')
+                notes += note_buf
+                durations += duration_buf
+                chords += chord_buf
 
         i = next_i
 
