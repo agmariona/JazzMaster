@@ -1,6 +1,7 @@
 import argparse
 import fractions
 import keyboard
+import mido
 import threading
 import time
 
@@ -80,3 +81,6 @@ for line in txt:
         keyboard.press(note_to_key[note])
         time.sleep(util.duration_to_sec(duration, bpm))
         keyboard.release(note_to_key[note])
+
+with mido.open_output() as outport:
+    outport.send(mido.Message('stop'))
