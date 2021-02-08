@@ -66,14 +66,15 @@ class Cluster:
         self.size += cluster.size
 
 class Agent:
-    inner_window = 0.03
+    inner_window = 0.01
+    outer_window = [-0.015, 0.015]
     penalty = 3
     n_agents = 0
 
-    def __init__(self, tempo, phase):
+    def __init__(self, tempo, phase, confidence=0):
         self.tempo = tempo
         self.phase = phase
-        self.confidence = 0
+        self.confidence = confidence
         self.history = []
         self.id = Agent.n_agents
         Agent.n_agents += 1
@@ -97,7 +98,23 @@ class Agent:
             false_positives = (current_hit - prev_hit) // self.tempo - 1
             self.confidence -= false_positives * Agent.penalty
 
+            # self.tempo -= delta
+            self.phase = onset
             self.history.append(event)
+        elif Agent.outer_window[0] < delta < Agent.outer_window[1]:
+            return False
+
+        return True
+
+    def clone(self, event):
+        onset = event[1]
+        closest_beat = nearest_multiple(self.tempo, onset - self.phase) \
+            + self.phase
+        delta = onset - closest_beat
+        assert Agent.outer_window[0] < delta < Agent.outer_window[1]
+        clone = Agent(self.tempo, onset, confidence=self.confidence)
+        clone.receive_event(event)
+        return clone
 
     def __str__(self):
         return f'Agent {self.id}. Tempo: {self.tempo:.04}, ' + \
@@ -145,9 +162,14 @@ class BeatTracker:
                 else:
                     self.agents.append(Agent(tempo, e))
                     pins.append(e)
+
+        cloned_agents = []
         for agent in self.agents:
             for e in events:
                 agent.receive_event(e)
+                if not agent.receive_event(e):
+                    cloned_agents.append(agent.clone(e))
+        self.agents = self.agents + cloned_agents
 
     def display_agents(self):
         for a in self.agents:
