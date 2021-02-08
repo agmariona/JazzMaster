@@ -1,3 +1,4 @@
+import math
 import mido
 
 midi_note_inc = {
@@ -58,8 +59,12 @@ def sequence_to_midi(sequence):
 
 def unzip_sequence(seq):
     notes = [s[0] for s in seq]
-    durations = [s[1] for s in seq]
-    return notes, durations
+    starts = [s[1] for s in seq]
+    stops = [s[1] for s in seq]
+    return notes, starts, stops
 
 def duration_to_sec(duration, bpm):
     return duration / bpm * 60
+
+def nearest_multiple_above(factor, target):
+    return factor*math.ceil(target/factor)

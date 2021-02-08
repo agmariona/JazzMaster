@@ -9,7 +9,7 @@ def cluster_intervals(events):
     for i in range(len(events)):
         for j in range(i+1, len(events)):
             interval = events[j] - events[i]
-            if interval < 0.025 or interval > 2.5:
+            if interval < D or interval > 2.5:
                 continue
             try:
                 k = np.argmin(np.abs(averages - interval))
@@ -37,7 +37,7 @@ def cluster_intervals(events):
     return merged_clusters
 
 def is_close(a, b):
-    return np.abs(a - b) < 0.07
+    return np.abs(a - b) < Agent.inner_window
 
 def nearest_multiple(m, x):
     if m == 0:
@@ -66,7 +66,8 @@ class Cluster:
         self.size += cluster.size
 
 class Agent:
-    inner_window = 0.07
+    inner_window = 0.03
+    penalty = 3
     n_agents = 0
 
     def __init__(self, tempo, phase):
@@ -94,7 +95,7 @@ class Agent:
             current_hit = nearest_multiple(self.tempo, onset - self.phase)
             prev_hit = nearest_multiple(self.tempo, prev_onset - self.phase)
             false_positives = (current_hit - prev_hit) // self.tempo - 1
-            self.confidence -= false_positives * 3
+            self.confidence -= false_positives * Agent.penalty
 
             self.history.append(event)
 
@@ -155,40 +156,6 @@ class BeatTracker:
     def get_best_agent(self):
         return max(self.agents, key=lambda a: a.confidence)
 
-# def cluster_intervals_old(onset_times):
-#     d = 0.025
-#     clusters = []
-#     averages = []
-#     for i in range(len(onset_times)):
-#         for j in range(i+1, len(onset_times)):
-#             interval = onset_times[j] - onset_times[i]
-#             if interval < 0.025 or interval > 2.5:
-#                 continue
-#
-#             try:
-#                 k = np.argmin(np.abs(np.array(averages) - interval))
-#             except ValueError:
-#                 k = None
-#
-#             if k is not None and np.abs(averages[k] - interval) < d:
-#                 clusters[k].append(interval)
-#                 averages[k] = np.mean(clusters[k])
-#             else:
-#                 clusters.append([interval])
-#                 averages.append(interval)
-#
-#     merged_clusters = []
-#     deleted = []
-#     for i in range(len(clusters)):
-#         if i in deleted:
-#             continue
-#         for j in range(i+1, len(clusters)):
-#             if j in deleted:
-#                 continue
-#             if np.abs(np.mean(clusters[i]) - np.mean(clusters[j])) < d:
-#                 clusters[i] = clusters[i] + clusters[j]
-#                 deleted.append(j)
-#         merged_clusters.append(clusters[i])
-#
-#     return merged_clusters
-
+    def get_tempo_phase(self):
+        best = max(self.agents, key=lambda a: a.confidence)
+        return best.tempo, best.phase

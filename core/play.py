@@ -1,10 +1,11 @@
 import fluidsynth
 import math
 import numpy as np
-import pychord
+import simpleaudio as sa
 from time import sleep
 
 import util.util as util
+import util.constants as constants
 
 fs = [fluidsynth.Synth() for i in range(2)]
 for f in fs:
@@ -51,63 +52,23 @@ def note_off(note):
         note = util.note_to_midi(note)
     fs[1].noteoff(0, note)
 
-def cluster_intervals(onset_times):
-    d = 0.025
-    clusters = []
-    averages = []
-    for i in range(len(onset_times)):
-        for j in range(i+1, len(onset_times)):
-            interval = onset_times[j] - onset_times[i]
-            if interval < 0.025 or interval > 2.5:
-                continue
+tempo = None
+phase = None
 
-            try:
-                k = np.argmin(np.abs(np.array(averages) - interval))
-            except ValueError:
-                k = None
+def update_tempo(new_tempo, new_phase):
+    global tempo, phase
+    tempo = new_tempo
+    phase = new_phase
 
-            if k is not None and np.abs(averages[k] - interval) < d:
-                clusters[k].append(interval)
-                averages[k] = np.mean(clusters[k])
-            else:
-                clusters.append([interval])
-                averages.append(interval)
+def click(clock):
+    click_noise = sa.WaveObject.from_wave_file(
+        constants.PROJ_PATH + 'resources/click.wav')
+    while not tempo:
+        pass
+    while True:
+        next_beat = \
+            util.nearest_multiple_above(tempo, clock.duration - phase) + phase
+        sleep(next_beat - clock.duration)
+        click_noise.play().wait_done()
 
-    merged_clusters = []
-    deleted = []
-    for i in range(len(clusters)):
-        if i in deleted:
-            continue
-        for j in range(i+1, len(clusters)):
-            if j in deleted:
-                continue
-            if np.abs(np.mean(clusters[i]) - np.mean(clusters[j])) < d:
-                clusters[i] = clusters[i] + clusters[j]
-                deleted.append(j)
-        merged_clusters.append(clusters[i])
 
-    return merged_clusters
-
-def nearest_multiple(m, x):
-    if m == 0:
-        return x
-    else:
-        return math.floor((x / m) + 0.5) * m
-
-class Agent:
-    inner_window = 0.07
-
-    def __init__(self, tempo, phase):
-        self.tempo = tempo
-        self.phase = phase
-        self.confidence = 0
-
-    def receive_event(self, event):
-        closest_beat = nearest_mulitple(self.tempo, event - self.phase) \
-            + self.phase
-        delta = event - closest_beat
-        if abs(delta) < inner_window:
-            self.confidence += 1
-
-def beat_tracker(init_seq):
-    cluster
