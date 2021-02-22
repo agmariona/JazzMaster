@@ -1,7 +1,11 @@
 import math
 import numpy as np
 
+### PARAMETERS ###
 D = 0.025
+AGENT_INNER_WINDOW = 0.02
+AGENT_OUTER_WINDOW = [-0.03, 0.03]
+AGENT_MISS_PENALTY = 7
 
 def cluster_intervals(events):
     clusters = []
@@ -66,9 +70,9 @@ class Cluster:
         self.size += cluster.size
 
 class Agent:
-    inner_window = 0.01
-    outer_window = [-0.015, 0.015]
-    penalty = 3
+    inner_window = AGENT_INNER_WINDOW
+    outer_window = AGENT_OUTER_WINDOW
+    penalty = AGENT_MISS_PENALTY
     n_agents = 0
 
     def __init__(self, tempo, phase, confidence=0):
@@ -98,8 +102,8 @@ class Agent:
             false_positives = (current_hit - prev_hit) // self.tempo - 1
             self.confidence -= false_positives * Agent.penalty
 
-            # self.tempo -= delta
             self.phase = onset
+
             self.history.append(event)
         elif Agent.outer_window[0] < delta < Agent.outer_window[1]:
             return False
@@ -117,7 +121,7 @@ class Agent:
         return clone
 
     def __str__(self):
-        return f'Agent {self.id}. Tempo: {self.tempo:.04}, ' + \
+        return f'Agent {self.id}. Tempo: {1/self.tempo*60:.04}, ' + \
             f'Phase: {self.phase:.04}, Confidence: {self.confidence:.04}'
 
 class BeatTracker:

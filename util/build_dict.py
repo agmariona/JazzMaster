@@ -1,27 +1,27 @@
 import pandas as pd
+import os
 
+import constants as c
 from util import note_txt_to_midi, duration_txt_to_midi
 
-TRACKS = [
-    'take_the_a_train',
-    'satin_doll',
-    'misty'
-]
 NGRAM_SIZE = 5
 COLUMNS = ['ngram', 'harmony', 'duration', 'initial', 'track', 'position']
 
 db = pd.DataFrame(columns=COLUMNS)
 
-for track in TRACKS:
-    txt = open(f'../library/{track}.txt')
-    bpm, time_sig = txt.readline().split('/')
+for filename in os.listdir(c.PROJ_PATH + 'library/txt/'):
+    print(filename)
+    txt = open(c.PROJ_PATH+'library/txt/'+filename)
 
     notes = list()
     chords = list()
     durations = list()
+
     for line in txt:
         note, duration, chord = line.split()
         if note[0] == 'R':
+            continue
+        if note == 'None':
             continue
         notes.append(note_txt_to_midi(note))
         chords.append(chord)
@@ -40,10 +40,10 @@ for track in TRACKS:
         harmony = ' '.join(map(str, harmony))
         duration = ' '.join(map(str, duration))
 
-        entry = pd.DataFrame([[ngram, harmony, duration, initial, track, i]],
+        entry = pd.DataFrame([[ngram, harmony, duration, initial, filename, i]],
             columns=COLUMNS)
         db = db.append(entry, ignore_index=True)
 
-print(db.head())
-print(db.tail())
+    txt.close()
+
 db.to_pickle('../resources/compare.db')

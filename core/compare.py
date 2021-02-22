@@ -7,7 +7,7 @@ db = pd.read_pickle('resources/compare.db')
 
 def get_matches(seq):
     ngram = midi_to_ngram(seq)
-    print(f'\t{ngram}')
+    # print(f'\t{ngram}')
     matches = db[db.ngram==ngram]
     if matches.empty:
         print('Error: Match not found. Only exact matching supported.')

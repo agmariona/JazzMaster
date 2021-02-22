@@ -56,7 +56,7 @@ note_to_key = {
 
 parser = argparse.ArgumentParser(add_help=False)
 parser.add_argument('txt', type=str, help='path to .txt to convert')
-parser.add_argument('-b', type=int, default=160,
+parser.add_argument('-b', type=int, default=120,
     help='bpm to play at')
 parser.add_argument('-c', action='store_true', help='play chords')
 args = parser.parse_args()
