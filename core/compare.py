@@ -1,17 +1,16 @@
 import pandas as pd
+import fuzzyset
 
 import util.util as util
 import util.constants as c
 
 db = pd.read_pickle('resources/compare.db')
+match_set = fuzzyset.FuzzySet(db.ngram)
 
 def get_matches(seq):
     ngram = midi_to_ngram(seq)
-    # print(f'\t{ngram}')
-    matches = db[db.ngram==ngram]
-    if matches.empty:
-        print('Error: Match not found. Only exact matching supported.')
-        return None
+    best_match = match_set.get(ngram)[0][1]
+    matches = db[db.ngram==best_match]
 
     # Information comes from *next* ngram
     to_drop = []
@@ -21,13 +20,13 @@ def get_matches(seq):
         elif db.iloc[i].track != db.iloc[i+c.N_NGRAM].track:
             to_drop.append(i)
     matches = matches.drop(to_drop)
-    matches = db.iloc[matches.index+c.N_NGRAM]
+    next_matches = db.iloc[matches.index+c.N_NGRAM]
 
     if matches.empty:
         print('Error: End of song.')
         return None
 
-    return matches
+    return matches, next_matches
 
 def sequence_to_ngram(seq):
     midi_seq = util.sequence_to_midi(sequence)

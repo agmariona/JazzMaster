@@ -1,12 +1,33 @@
+import argparse
 import stopwatch
 import threading
+import sounddevice as sd
 
+import core.listen as listen
 import core.compare as compare
 import core.generate as generate
 import core.play as play
 import core.beat_tracker as bt
 import util.midi_in as midi_in
 import util.util as util
+
+parser = argparse.ArgumentParser(add_help=False)
+parser.add_argument(
+    '-l', '--list-devices', action='store_true',
+    help='show list of audio devices and exit')
+args, remaining = parser.parse_known_args()
+if args.list_devices:
+    print(sd.query_devices())
+    parser.exit(0)
+parser = argparse.ArgumentParser(
+    description=__doc__,
+    formatter_class=argparse.RawDescriptionHelpFormatter,
+    parents=[parser])
+parser.add_argument(
+    '-d', '--device', type=int, help='input device (numeric ID)', default=0)
+parser.add_argument('-m', action='store_true', help='MIDI input')
+parser.add_argument('-c', action='store_true', help='metronome click')
+args = parser.parse_args(remaining)
 
 pass_buffer = []
 pass_ready = [False]
@@ -15,12 +36,17 @@ pass_cv = threading.Condition()
 clock = stopwatch.Stopwatch()
 clock.start()
 
-print('JazzMaster online.')
-threading.Thread(target=midi_in.get_input,
-    args=(pass_buffer, pass_ready, pass_cv, clock)).start()
+if args.m:
+    threading.Thread(target=midi_in.get_input,
+            args=(pass_buffer, pass_ready, pass_cv, clock)).start()
+else:
+    threading.Thread(target=listen.get_input,
+        args=(args.device, pass_buffer, pass_ready, pass_cv)).start()
 threading.Thread(target=play.player).start()
-# threading.Thread(target=play.click, args=(clock,)).start()
+if args.c:
+    threading.Thread(target=play.click, args=(clock,)).start()
 tracker = bt.BeatTracker()
+print("JazzMaster online.")
 
 while True:
     ### LISTEN #####
@@ -35,12 +61,13 @@ while True:
     ################
 
     ### COMPARE ####
-    matches = compare.get_matches(notes)
+    matches, next_matches = compare.get_matches(notes)
     ################
 
     ### GENERATE ###
-    harmony, duration = generate.generate_harmony(matches, initial)
-    print(f"\t{harmony}")
+    harmony, duration = generate.generate_harmony(
+        matches, next_matches, initial)
+    # print(f"\t{harmony}")
     ################
 
     ### PLAY #######

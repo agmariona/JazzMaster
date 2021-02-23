@@ -3,9 +3,9 @@ import numpy as np
 
 ### PARAMETERS ###
 D = 0.025
-AGENT_INNER_WINDOW = 0.02
+AGENT_INNER_WINDOW = 0.01
 AGENT_OUTER_WINDOW = [-0.03, 0.03]
-AGENT_MISS_PENALTY = 7
+AGENT_MISS_PENALTY = 8
 
 def cluster_intervals(events):
     clusters = []
@@ -81,6 +81,7 @@ class Agent:
         self.confidence = confidence
         self.history = []
         self.id = Agent.n_agents
+        self.alive = True
         Agent.n_agents += 1
 
     def receive_event(self, event):
@@ -103,10 +104,13 @@ class Agent:
             self.confidence -= false_positives * Agent.penalty
 
             self.phase = onset
-
             self.history.append(event)
+
         elif Agent.outer_window[0] < delta < Agent.outer_window[1]:
             return False
+
+        if self.confidence < 0:
+            self.alive = False
 
         return True
 
@@ -169,10 +173,11 @@ class BeatTracker:
 
         cloned_agents = []
         for agent in self.agents:
-            for e in events:
-                agent.receive_event(e)
-                if not agent.receive_event(e):
-                    cloned_agents.append(agent.clone(e))
+            if agent.alive:
+                for e in events:
+                    agent.receive_event(e)
+                    if not agent.receive_event(e):
+                        cloned_agents.append(agent.clone(e))
         self.agents = self.agents + cloned_agents
 
     def display_agents(self):

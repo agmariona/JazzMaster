@@ -6,29 +6,32 @@ import util.constants as c
 track_hypothesis = None
 pos_hypothesis = 0
 
-def generate_harmony(matches, initial):
+def generate_harmony(matches, next_matches, initial):
     global track_hypothesis, pos_hypothesis
-    print(f"Current hypothesis: {track_hypothesis}")
+    print(f"Current hypothesis: {track_hypothesis}:{pos_hypothesis}")
 
-    t = matches[matches.track == track_hypothesis]
-    if not t.empty:
-        p = t[t.position == (pos_hypothesis + c.N_NGRAM)]
-        if p.empty:
-            r = t.iloc[0]
+    track_matches = matches[matches.track == track_hypothesis]
+    if not track_matches.empty:
+        pos_matches = track_matches[track_matches.position == pos_hypothesis]
+        if pos_matches.empty:
+            prev_match = track_matches.iloc[0]
         else:
-            r = p.iloc[0]
-        pos_hypothesis = r.position
+            prev_match = pos_matches.iloc[0]
+        result = next_matches[next_matches.track.isin([prev_match.track]) &
+            next_matches.position.isin([prev_match.position +
+            c.N_NGRAM])].iloc[0]
+        pos_hypothesis = result.position
     else:
-        r = matches.iloc[0]
-        track_hypothesis = r.track
-        pos_hypothesis = r.position
+        prev_match = matches.iloc[0]
+        result = next_matches.iloc[0]
+        track_hypothesis = result.track
+        pos_hypothesis = result.position
 
-    duration = r.duration.split()
-
-    harmony = [pychord.Chord(h) for h in r.harmony.split()]
-    delta = (initial - util.note_to_midi(harmony[0].root + '4')) % 12
-    # for i in range(len(harmony)):
-    #     harmony[i].transpose(delta)
+    duration = result.duration.split()
+    harmony = [pychord.Chord(h) for h in result.harmony.split()]
+    delta = (initial - prev_match.initial) % 12
+    for i in range(len(harmony)):
+        harmony[i].transpose(delta)
 
     return harmony, duration
 

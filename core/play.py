@@ -17,10 +17,15 @@ for f in fs:
     f.program_select(0, sfid, 0, 0)
 
 def play_chord(chord, root_pitch, duration):
+    global async_playing, async_notes
+    if async_playing:
+        for note in async_notes:
+            fs[0].noteoff(0, note)
+        async_playing = False
     components = chord.components_with_pitch(root_pitch)
     notes = util.sequence_to_midi(components)
     for note in notes:
-        fs[0].noteon(0, note, 127)
+        fs[0].noteon(0, note, 80)
     sleep(duration)
     for note in notes:
         fs[0].noteoff(0, note)
@@ -29,7 +34,6 @@ async_playing = False
 async_notes = list()
 
 def play_chord_async(chord, root_pitch):
-    chord = pychord.Chord(chord)
     global async_playing, async_notes
     if async_playing:
         for note in async_notes:
@@ -38,7 +42,7 @@ def play_chord_async(chord, root_pitch):
     components = chord.components_with_pitch(root_pitch)
     async_notes = util.sequence_to_midi(components)
     for note in async_notes:
-        fs[0].noteon(0, note, 127)
+        fs[0].noteon(0, note, 80)
 
 harmony_buffer = []
 harmony_available = False
@@ -64,7 +68,10 @@ def player():
             with harmony_cv:
                 chord = harmony_buffer.pop(0)
             print(f"\tPlaying {chord[0]} for {chord[2]:.02} seconds")
-            play_chord(*chord)
+            if len(harmony_buffer) > 0:
+                play_chord(*chord)
+            else:
+                play_chord_async(chord[0], chord[1])
         harmony_available = False
 
 def squeeze_harmony(harmony, duration):

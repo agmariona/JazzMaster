@@ -4,6 +4,7 @@ import queue
 from scipy import fft, signal
 
 import util.constants as c
+import util.util as util
 
 SAVE_PATH = '/Users/agm/Documents/Harvard/ENG-SCI 100/JazzMaster/data/'
 
@@ -81,7 +82,7 @@ def plot_energy_with_onsets(fname=None):
         plt.savefig(SAVE_PATH+fname, dpi=300)
     else:
         plt.show(block=False)
-        plt.pause(0.1)
+        plt.pause(0.01)
     plt.close()
 
 ### Plot Drivers ###
@@ -180,11 +181,27 @@ def detect_onset():
         start_index = 0
     current_hist = energy_hist[start_index:]
     # Full: 5e4
-    current_onsets = signal.find_peaks(current_hist, prominence=3e4)[0]
+    current_onsets = signal.find_peaks(current_hist, prominence=1.25e4)[0]
     if current_onsets.size > 1:
         print(f'\tDetected {current_onsets.size} onsets in one window.' \
             'Won\'t be able to resolve pitch.')
     onset_hist = np.append(onset_hist, current_onsets + start_index)
+
+events_loaded = 0
+def load_buffer():
+    buf = []
+    global events_loaded
+    if onset_hist.size > events_loaded and \
+        pitch_hist.size > (onset_hist[-1] // c.T_WIN_FACTOR + 3):
+        while onset_hist.size > (events_loaded+1):
+            pitch = pitch_hist[onset_hist[events_loaded] // c.T_WIN_FACTOR + 3]
+            pitch = util.note_to_midi(pitch)
+            start = round(onset_hist[events_loaded] * c.TIME_STEP, ndigits=3)
+            stop = round(onset_hist[events_loaded+1] * c.TIME_STEP, ndigits=3)
+            buf.append((pitch, start, stop))
+            events_loaded += 1
+    return buf
+
 
 ### Printers ###
 
@@ -194,7 +211,8 @@ def print_pitches():
     if onset_hist.size > pitches_printed and \
         pitch_hist.size > (onset_hist[-1] // c.T_WIN_FACTOR + 3):
         while onset_hist.size > pitches_printed:
-            print(pitch_hist[onset_hist[pitches_printed] // c.T_WIN_FACTOR + 3])
+            print(
+                pitch_hist[onset_hist[pitches_printed] // c.T_WIN_FACTOR + 3])
             pitches_printed += 1
 
 
@@ -226,19 +244,3 @@ def find_closest(value, targets):
     i = np.clip(i, 1, len(targets)-1)
     i -= value - targets[i-1] < targets[i] - value
     return targets[i]
-
-def is_octave(pitch_a, pitch_b):
-    if len(pitch_a) == 3:
-        principal_a = pitch_a[:2]
-    else:
-        principal_a = pitch_a[:1]
-
-    if len(pitch_b) == 3:
-        principal_b = pitch_b[:2]
-    else:
-        principal_b = pitch_b[:1]
-
-    if principal_a == principal_b:
-        return True
-    else:
-        return False
