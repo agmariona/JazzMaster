@@ -192,9 +192,15 @@ def load_buffer():
     buf = []
     global events_loaded
     if onset_hist.size > events_loaded and \
-        pitch_hist.size > (onset_hist[-1] // c.T_WIN_FACTOR + 3):
+        pitch_hist.size > \
+        (onset_hist[-1] // c.T_WIN_FACTOR + c.PITCH_LOOK_AHEAD):
         while onset_hist.size > (events_loaded+1):
-            pitch = pitch_hist[onset_hist[events_loaded] // c.T_WIN_FACTOR + 3]
+            pitch = ''
+            j = 0
+            while pitch == '':
+                pitch = pitch_hist[onset_hist[events_loaded] //
+                    c.T_WIN_FACTOR + c.PITCH_LOOK_AHEAD + j]
+            print(f'\t{pitch}')
             pitch = util.note_to_midi(pitch)
             start = round(onset_hist[events_loaded] * c.TIME_STEP, ndigits=3)
             stop = round(onset_hist[events_loaded+1] * c.TIME_STEP, ndigits=3)

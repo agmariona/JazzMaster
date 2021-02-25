@@ -58,6 +58,7 @@ while True:
     events = [(e[0], e[1], round(e[2]-e[1], ndigits=3)) for e in seq]
     notes, onsets, durations = util.unzip_sequence(events)
     initial = notes[0]
+    print(events)
     ################
 
     ### COMPARE ####

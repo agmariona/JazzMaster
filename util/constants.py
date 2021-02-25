@@ -8,6 +8,7 @@ F_WIN_LEN = 280 # 278
 T_WIN_FACTOR = 4
 T_WIN_LEN = 70
 TIME_STEP = F_WIN_LEN/(F_SAMP*T_WIN_FACTOR)
+PITCH_LOOK_AHEAD = 1
 FREQS = {'E3'  : 164.81,
          'F3'  : 174.61,
          'F#3' : 185.00,

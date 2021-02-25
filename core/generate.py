@@ -28,7 +28,7 @@ def generate_harmony(matches, next_matches, initial):
         pos_hypothesis = result.position
 
     duration = result.duration.split()
-    harmony = [pychord.Chord(h) for h in result.harmony.split()]
+    harmony = [pychord.Chord(h) for h in result.harmony.split() if h != 'None']
     delta = (initial - prev_match.initial) % 12
     for i in range(len(harmony)):
         harmony[i].transpose(delta)
