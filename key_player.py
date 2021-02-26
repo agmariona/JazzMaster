@@ -1,4 +1,5 @@
 import argparse
+from datetime import datetime
 import fractions
 import keyboard
 import mido
@@ -79,6 +80,7 @@ for line in txt:
     if note[0] == 'R':
         time.sleep(util.duration_to_sec(duration, bpm))
     else:
+        print(f'NOTE {util.canonical_note(note)} {datetime.now().time()}')
         keyboard.press(note_to_key[note])
         time.sleep(util.duration_to_sec(duration, bpm))
         keyboard.release(note_to_key[note])

@@ -10,6 +10,7 @@ import core.play as play
 import core.beat_tracker as bt
 import util.midi_in as midi_in
 import util.util as util
+import util.constants as c
 
 parser = argparse.ArgumentParser(add_help=False)
 parser.add_argument(
@@ -27,6 +28,10 @@ parser.add_argument(
     '-d', '--device', type=int, help='input device (numeric ID)', default=0)
 parser.add_argument('-m', action='store_true', help='MIDI input')
 parser.add_argument('-c', action='store_true', help='metronome click')
+parser.add_argument('-p', type=int, help='onset prominence', default=2e4)
+parser.add_argument('--listen', action='store_true', help='listen only')
+parser.add_argument('--log', action='store_true',
+    help='print out testing information')
 args = parser.parse_args(remaining)
 
 pass_buffer = []
@@ -41,12 +46,14 @@ if args.m:
             args=(pass_buffer, pass_ready, pass_cv, clock)).start()
 else:
     threading.Thread(target=listen.get_input,
-        args=(args.device, pass_buffer, pass_ready, pass_cv)).start()
-threading.Thread(target=play.player).start()
+        args=(args.device, pass_buffer, pass_ready, pass_cv, args.p, args.log)
+        ).start()
+threading.Thread(target=play.player, args=(args.log,)).start()
 if args.c:
     threading.Thread(target=play.click, args=(clock,)).start()
 tracker = bt.BeatTracker()
-print("JazzMaster online.")
+if not args.log:
+    print("JazzMaster online.")
 
 while True:
     ### LISTEN #####
@@ -58,7 +65,8 @@ while True:
     events = [(e[0], e[1], round(e[2]-e[1], ndigits=3)) for e in seq]
     notes, onsets, durations = util.unzip_sequence(events)
     initial = notes[0]
-    print(events)
+    if args.listen:
+        continue
     ################
 
     ### COMPARE ####
@@ -73,7 +81,7 @@ while True:
 
     ### PLAY #######
     tracker.pass_events(events)
-    print(f"\t{tracker.get_best_agent()}")
+    # print(f"\t{tracker.get_best_agent()}")
     play.update_tempo(*tracker.get_tempo_phase())
     threading.Thread(target=play.push_progression,
         args=(harmony, duration)).start()

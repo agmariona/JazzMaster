@@ -12,14 +12,15 @@ start_time = 0
 stop_time = 0
 current_note = None
 
-def get_input(device, pass_buffer, pass_ready, pass_cv):
+def get_input(device, pass_buffer, pass_ready, pass_cv, prominence,
+    logging):
     global input_buffer
     with sd.InputStream(device=device, channels=1, callback=h.sd_callback,
         blocksize=c.F_WIN_LEN, samplerate=c.F_SAMP):
         while True:
             h.update_hist()
-            h.detect_onset()
-            input_buffer += h.load_buffer()
+            h.detect_onset(prominence)
+            input_buffer += h.load_buffer(logging)
             with pass_cv:
                 if len(input_buffer) >= c.N_NGRAM:
                     pass_buffer[:] = input_buffer[:c.N_NGRAM]
@@ -42,6 +43,7 @@ if __name__ == '__main__':
         parents=[parser])
     parser.add_argument(
         '-d', '--device', type=int, help='input device (numeric ID)')
+    parser.add_argument('-p', type=int, help='onset prominence', default=1e4)
     # parser.add_argument(
     #     '-b', '--blocksize', type=int, metavar='NSAMP', default=50,
     #     help='block size (default %(default) samples)')
@@ -55,9 +57,9 @@ if __name__ == '__main__':
         i = 0
         while True:
             h.update_hist()
-            h.detect_onset()
+            h.detect_onset(args.p)
             h.print_pitches()
 
-            # i += 1
-            # if (i%10==0):
-            #     h.plot_pitch()
+            i += 1
+            if (i%10==0):
+                h.plot_energy_with_onsets()

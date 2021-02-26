@@ -8,7 +8,7 @@ pos_hypothesis = 0
 
 def generate_harmony(matches, next_matches, initial):
     global track_hypothesis, pos_hypothesis
-    print(f"Current hypothesis: {track_hypothesis}:{pos_hypothesis}")
+    # print(f"Current hypothesis: {track_hypothesis}:{pos_hypothesis}")
 
     track_matches = matches[matches.track == track_hypothesis]
     if not track_matches.empty:

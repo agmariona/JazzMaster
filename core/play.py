@@ -1,3 +1,4 @@
+from datetime import datetime
 import fluidsynth
 import fractions
 import math
@@ -58,7 +59,7 @@ def push_progression(harmony, durations):
         harmony_available = True
         harmony_cv.notify()
 
-def player():
+def player(log):
     global harmony_available
     while True:
         with harmony_cv:
@@ -67,7 +68,7 @@ def player():
         while len(harmony_buffer) > 0:
             with harmony_cv:
                 chord = harmony_buffer.pop(0)
-            print(f"\tPlaying {chord[0]} for {chord[2]:.02} seconds")
+            print(f'CHORD {chord[0]} {datetime.now().time()}')
             if len(harmony_buffer) > 0:
                 play_chord(*chord)
             else:
@@ -76,7 +77,14 @@ def player():
 
 def squeeze_harmony(harmony, duration):
     squeezed_harmony, squeezed_duration = [], []
-    prev_chord, running_duration = harmony[0], duration[0]
+    try:
+        prev_chord, running_duration = harmony[0], duration[0]
+    except IndexError:
+        print("\n\n\nSQUEEZE HARMONY ERROR")
+        print(f'HARMONY: {harmony}')
+        print(f'DURATION: {duration}')
+        print("\n\n\n")
+        exit()
     for i in range(1, len(harmony)):
         if harmony[i] == prev_chord:
             running_duration += duration[i]

@@ -1,3 +1,4 @@
+from datetime import datetime
 import matplotlib.pyplot as plt
 import numpy as np
 import queue
@@ -173,7 +174,7 @@ def update_energy_hist():
     weighted_energy = (1/c.RFFT_N) * np.sum(weights * onset_data**2)
     energy_hist = np.append(energy_hist, weighted_energy)
 
-def detect_onset():
+def detect_onset(prominence):
     global onset_hist
     try:
         start_index = onset_hist[-1]
@@ -181,14 +182,14 @@ def detect_onset():
         start_index = 0
     current_hist = energy_hist[start_index:]
     # Full: 5e4
-    current_onsets = signal.find_peaks(current_hist, prominence=1.25e4)[0]
+    current_onsets = signal.find_peaks(current_hist, prominence=prominence)[0]
     if current_onsets.size > 1:
         print(f'\tDetected {current_onsets.size} onsets in one window.' \
             'Won\'t be able to resolve pitch.')
     onset_hist = np.append(onset_hist, current_onsets + start_index)
 
 events_loaded = 0
-def load_buffer():
+def load_buffer(logging):
     buf = []
     global events_loaded
     if onset_hist.size > events_loaded and \
@@ -200,7 +201,8 @@ def load_buffer():
             while pitch == '':
                 pitch = pitch_hist[onset_hist[events_loaded] //
                     c.T_WIN_FACTOR + c.PITCH_LOOK_AHEAD + j]
-            print(f'\t{pitch}')
+            if logging:
+                print(f'NOTE {pitch} {datetime.now().time()}')
             pitch = util.note_to_midi(pitch)
             start = round(onset_hist[events_loaded] * c.TIME_STEP, ndigits=3)
             stop = round(onset_hist[events_loaded+1] * c.TIME_STEP, ndigits=3)
