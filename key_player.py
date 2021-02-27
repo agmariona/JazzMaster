@@ -3,68 +3,49 @@ from datetime import datetime
 import fractions
 import keyboard
 import mido
+import pychord
 import threading
 import time
 
+import util.constants as c
 import util.util as util
 from core import play
-
-note_to_key = {
-    'GN3': 'w',
-    'G#3': '3',
-    'AB3': '3',
-    'AN3': 'e',
-    'A#3': '4',
-    'BB3': '4',
-    'BN3': 'r',
-    'CN4': 't',
-    'C#4': '6',
-    'DB4': '6',
-    'DN4': 'y',
-    'D#4': '7',
-    'EB4': '7',
-    'EN4': 'u',
-    'FN4': 'i',
-    'F#4': '9',
-    'GB4': '9',
-    'GN4': 'o',
-    'G#4': '0',
-    'AB4': '0',
-    'AN4': 'p',
-    'A#4': '-',
-    'BB4': '-',
-    'BN4': '[',
-    'CB5': '[',
-    'CN5': 'z',
-    'C#5': 's',
-    'DB5': 's',
-    'DN5': 'x',
-    'D#5': 'd',
-    'EB5': 'd',
-    'EN5': 'c',
-    'FB5': 'c',
-    'FN5': 'v',
-    'F#5': 'g',
-    'GB5': 'g',
-    'GN5': 'b',
-    'G#5': 'h',
-    'AB5': 'h',
-    'AN5': 'n',
-    'A#5': 'j',
-    'BB5': 'j',
-    'BN5': 'm',
-}
 
 parser = argparse.ArgumentParser(add_help=False)
 parser.add_argument('txt', type=str, help='path to .txt to convert')
 parser.add_argument('-b', type=int, default=120,
     help='bpm to play at')
 parser.add_argument('-c', action='store_true', help='play chords')
+parser.add_argument('-s', action='store_false', help='silent mode')
+parser.add_argument('-n', action='store_false', help='don\'t press keys')
+parser.add_argument('-w', action='store_true', help='write test logs')
 args = parser.parse_args()
 
-txt = open(args.txt)
 bpm = args.b
 
+if args.w:
+    for song in c.reference_songs:
+        infile = open(c.PROJ_PATH+f'library/txt/{song}', 'r')
+        outfile = open(
+            c.PROJ_PATH+f'data/reference_transcriptions/{song}', 'w+')
+
+        current_chord = None
+        for line in infile:
+            note, duration, chord = line.split()
+            duration = float(fractions.Fraction(duration))
+            if chord != 'None' and chord != current_chord:
+                outfile.write(f'CHORD {chord} {datetime.now().time()}\n')
+                current_chord = chord
+            if note[0] == 'R':
+                time.sleep(util.duration_to_sec(duration, bpm))
+            else:
+                outfile.write(
+                    f'NOTE {util.canonical_note(note)} ' + \
+                    f'{datetime.now().time()}\n')
+                time.sleep(util.duration_to_sec(duration, bpm))
+    exit()
+
+txt = open(args.txt)
 time.sleep(1)
 
 current_chord = None
@@ -73,17 +54,21 @@ for line in txt:
     duration = float(fractions.Fraction(duration))
 
     if args.c and chord != 'None' and chord != current_chord:
-            current_chord = chord
+        print(f'CHORD {chord} {datetime.now().time()}')
+        current_chord = chord
+        if args.s:
             threading.Thread(target=play.play_chord_async,
-                args=(current_chord, 3)).start()
+                args=(pychord.Chord(current_chord), 3)).start()
 
     if note[0] == 'R':
         time.sleep(util.duration_to_sec(duration, bpm))
     else:
         print(f'NOTE {util.canonical_note(note)} {datetime.now().time()}')
-        keyboard.press(note_to_key[note])
+        if args.n:
+            keyboard.press(c.note_to_key[note])
         time.sleep(util.duration_to_sec(duration, bpm))
-        keyboard.release(note_to_key[note])
+        if args.n:
+            keyboard.release(c.note_to_key[note])
 
 with mido.open_output() as outport:
     outport.send(mido.Message('stop'))
