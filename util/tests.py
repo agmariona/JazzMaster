@@ -2,6 +2,7 @@ from datetime import datetime
 import fractions
 import keyboard
 import musthe
+import numpy as np
 import pychord
 import time
 
@@ -29,6 +30,11 @@ def harmonic_reference_test():
     for song in c.reference_songs:
         print(f'{song:>30}:    ', end='')
         harmonic_test(c.PROJ_PATH+f'data/reference_transcriptions/{song}')
+
+def rhythmic_reference_test():
+    for song in c.reference_songs:
+        print(f'{song:>30}:    ', end='')
+        rhythmic_test(c.PROJ_PATH+f'data/reference_transcriptions/{song}')
 
 def harmonic_test(logfile):
     chord_groups = []
@@ -75,6 +81,33 @@ def harmonic_test(logfile):
 
     print('{:>8}'.format(f'{bad_notes}/{total_notes}\t'), end='')
     print(f'{bad_notes/total_notes:.2f}%')
+
+def rhythmic_test(logfile):
+    times = []
+    start_time = 0
+    with open(logfile) as f:
+        bpm = 120 # GENERALIZE
+        ibi = 60 / bpm
+
+        label, _, time = f.readline().split()
+        start_time = time
+        if label == 'CHORD':
+            times.append(datetime.strptime(time, "%H:%M:%S.%f"))
+
+        for line in f:
+            label, _, time = line.split()
+            if label == 'CHORD':
+                times.append(datetime.strptime(time, "%H:%M:%S.%f"))
+    times = np.array([(time - times[0]).total_seconds() for time in times])
+
+    mistimed_chords = 0
+    total_chords = len(times)
+    for time in times:
+        nearest = util.nearest_multiple(ibi/2, time)
+        if abs(time - nearest) > c.RHYTHM_TEST_WINDOW:
+            mistimed_chords += 1
+    print('{:>8}'.format(f'{mistimed_chords}/{total_chords}\t'), end='')
+    print(f'{mistimed_chords/total_chords:.2f}%')
 
 def note_test(file_a, file_b):
     notes_a = []

@@ -103,3 +103,9 @@ def duration_to_sec(duration, bpm):
 
 def nearest_multiple_above(factor, target):
     return factor*math.ceil(target/factor)
+
+def nearest_multiple(m, x):
+    if m == 0:
+        return x
+    else:
+        return math.floor((x / m) + 0.5) * m

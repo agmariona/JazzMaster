@@ -10,6 +10,15 @@ T_WIN_LEN = 70
 TIME_STEP = F_WIN_LEN/(F_SAMP*T_WIN_FACTOR)
 PITCH_LOOK_AHEAD = 1
 ONSET_PROMINENCE = 1e4
+D = 0.025
+AGENT_INNER_WINDOW = 0.01
+AGENT_OUTER_WINDOW = [-0.03, 0.03]
+AGENT_MISS_PENALTY = 8
+RHYTHM_TEST_WINDOW = 0.15
+
+PROJ_PATH = '/Users/agm/Documents/Harvard/ENG-SCI 100/JazzMaster/'
+
+RFFT_FREQS = fft.rfftfreq(FFT_N, d=1/F_SAMP)
 FREQS = {'E3'  : 164.81,
          'F3'  : 174.61,
          'F#3' : 185.00,
@@ -48,8 +57,7 @@ FREQS = {'E3'  : 164.81,
          'D#6' : 1244.51,
          'E6'  : 1318.51}
 PITCHES = {v:k for k,v in FREQS.items()}
-RFFT_FREQS = fft.rfftfreq(FFT_N, d=1/F_SAMP)
-PROJ_PATH = '/Users/agm/Documents/Harvard/ENG-SCI 100/JazzMaster/'
+
 note_to_key = {
     'EN3': '\t',
     'FN3': 'q',

@@ -1,11 +1,8 @@
 import math
 import numpy as np
 
-### PARAMETERS ###
-D = 0.025
-AGENT_INNER_WINDOW = 0.01
-AGENT_OUTER_WINDOW = [-0.03, 0.03]
-AGENT_MISS_PENALTY = 8
+import util.util as util
+import util.constants as c
 
 def cluster_intervals(events):
     clusters = []
@@ -13,14 +10,14 @@ def cluster_intervals(events):
     for i in range(len(events)):
         for j in range(i+1, len(events)):
             interval = events[j] - events[i]
-            if interval < D or interval > 2.5:
+            if interval < c.D or interval > 2.5:
                 continue
             try:
                 k = np.argmin(np.abs(averages - interval))
             except ValueError:
                 k = None
 
-            if k is not None and np.abs(averages[k] - interval) < D:
+            if k is not None and np.abs(averages[k] - interval) < c.D:
                 clusters[k].add(interval)
                 averages[k] = clusters[k].average
             else:
@@ -33,7 +30,7 @@ def cluster_intervals(events):
         for j in range(i+1, len(clusters)):
             if j in deleted:
                 continue
-            if np.abs(clusters[i].average - clusters[j].average) < D:
+            if np.abs(clusters[i].average - clusters[j].average) < c.D:
                 clusters[i].merge(clusters[j])
                 deleted.append(j)
         merged_clusters.append(clusters[i])
@@ -42,12 +39,6 @@ def cluster_intervals(events):
 
 def is_close(a, b):
     return np.abs(a - b) < Agent.inner_window
-
-def nearest_multiple(m, x):
-    if m == 0:
-        return x
-    else:
-        return math.floor((x / m) + 0.5) * m
 
 def salience_mul(event):
     p = event[0]
@@ -70,9 +61,9 @@ class Cluster:
         self.size += cluster.size
 
 class Agent:
-    inner_window = AGENT_INNER_WINDOW
-    outer_window = AGENT_OUTER_WINDOW
-    penalty = AGENT_MISS_PENALTY
+    inner_window = c.AGENT_INNER_WINDOW
+    outer_window = c.AGENT_OUTER_WINDOW
+    penalty = c.AGENT_MISS_PENALTY
     n_agents = 0
 
     def __init__(self, tempo, phase, confidence=0):
@@ -86,7 +77,7 @@ class Agent:
 
     def receive_event(self, event):
         onset = event[1]
-        closest_beat = nearest_multiple(self.tempo, onset - self.phase) \
+        closest_beat = util.nearest_multiple(self.tempo, onset - self.phase) \
             + self.phase
         delta = onset - closest_beat
         if abs(delta) < Agent.inner_window:
@@ -98,8 +89,8 @@ class Agent:
                 self.history.append(event)
                 return
 
-            current_hit = nearest_multiple(self.tempo, onset - self.phase)
-            prev_hit = nearest_multiple(self.tempo, prev_onset - self.phase)
+            current_hit = util.nearest_multiple(self.tempo, onset - self.phase)
+            prev_hit = util.nearest_multiple(self.tempo, prev_onset - self.phase)
             false_positives = (current_hit - prev_hit) // self.tempo - 1
             self.confidence -= false_positives * Agent.penalty
 
@@ -116,7 +107,7 @@ class Agent:
 
     def clone(self, event):
         onset = event[1]
-        closest_beat = nearest_multiple(self.tempo, onset - self.phase) \
+        closest_beat = util.nearest_multiple(self.tempo, onset - self.phase) \
             + self.phase
         delta = onset - closest_beat
         assert Agent.outer_window[0] < delta < Agent.outer_window[1]
@@ -146,7 +137,7 @@ class BeatTracker:
             for new_c in new_cs:
                 closest = self.clusters[
                     np.argmin(np.abs(self.averages - new_c.average))]
-                if np.abs(new_c.average - closest.average) < D:
+                if np.abs(new_c.average - closest.average) < c.D:
                     closest.merge(new_c)
                 else:
                     self.clusters.append(new_c)
@@ -165,7 +156,7 @@ class BeatTracker:
             pins = [onsets[0]]
             for e in onsets[1:]:
                 for p in pins:
-                    if is_close(e-p, nearest_multiple(tempo, e-p)):
+                    if is_close(e-p, util.nearest_multiple(tempo, e-p)):
                         break
                 else:
                     self.agents.append(Agent(tempo, e))
