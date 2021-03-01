@@ -81,7 +81,8 @@ while True:
 
     ### PLAY #######
     tracker.pass_events(events)
-    # print(f"\t{tracker.get_best_agent()}")
+    if not args.log:
+        print(f"\t{tracker.get_best_agent()}")
     play.update_tempo(*tracker.get_tempo_phase())
     threading.Thread(target=play.push_progression,
         args=(harmony, duration)).start()

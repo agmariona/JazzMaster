@@ -183,9 +183,9 @@ def detect_onset(prominence):
     current_hist = energy_hist[start_index:]
     # Full: 5e4
     current_onsets = signal.find_peaks(current_hist, prominence=prominence)[0]
-    if current_onsets.size > 1:
-        print(f'\tDetected {current_onsets.size} onsets in one window.' \
-            'Won\'t be able to resolve pitch.')
+    # if current_onsets.size > 1:
+    #     print(f'\tDetected {current_onsets.size} onsets in one window.' \
+    #         'Won\'t be able to resolve pitch.')
     onset_hist = np.append(onset_hist, current_onsets + start_index)
 
 events_loaded = 0

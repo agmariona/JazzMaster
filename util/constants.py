@@ -12,9 +12,9 @@ PITCH_LOOK_AHEAD = 1
 ONSET_PROMINENCE = 1e4
 D = 0.025
 AGENT_INNER_WINDOW = 0.01
-AGENT_OUTER_WINDOW = [-0.03, 0.03]
+AGENT_OUTER_WINDOW = [-0.02, 0.02]
 AGENT_MISS_PENALTY = 8
-RHYTHM_TEST_WINDOW = 0.15
+RHYTHM_TEST_WINDOW = 0.13
 
 PROJ_PATH = '/Users/agm/Documents/Harvard/ENG-SCI 100/JazzMaster/'
 
@@ -105,6 +105,11 @@ note_to_key = {
     'A#5': 'j',
     'BB5': 'j',
     'BN5': 'm',
+    'CN6': ',',
+    'C#6': 'l',
+    'DN6': '.',
+    'D#6': ';',
+    'EN6': '/'
 }
 
 reference_songs = [

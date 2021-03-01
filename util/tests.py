@@ -22,7 +22,7 @@ def listen_test(sweep, bpm):
             pitch = note[0]+note[2]
         else:
             pitch = note
-        print(f'{pitch} {datetime.now().time()}')
+        print(f'NOTE {pitch} {datetime.now().time()}')
         time.sleep(util.duration_to_sec(duration, bpm))
         keyboard.release(c.note_to_key[note])
 
@@ -57,7 +57,6 @@ def harmonic_test(logfile):
         elif quality in minor_quals:
             quality = 'natural_minor'
         else:
-            print(f'\nMissing scale for chord {chord}')
             quality = None
 
         if quality:
@@ -80,7 +79,7 @@ def harmonic_test(logfile):
         total_notes += len(notes)
 
     print('{:>8}'.format(f'{bad_notes}/{total_notes}\t'), end='')
-    print(f'{bad_notes/total_notes:.2f}%')
+    print(f'{bad_notes/total_notes*100:.0f}% error')
 
 def rhythmic_test(logfile):
     times = []
@@ -107,7 +106,7 @@ def rhythmic_test(logfile):
         if abs(time - nearest) > c.RHYTHM_TEST_WINDOW:
             mistimed_chords += 1
     print('{:>8}'.format(f'{mistimed_chords}/{total_chords}\t'), end='')
-    print(f'{mistimed_chords/total_chords:.2f}%')
+    print(f'{mistimed_chords/total_chords*100:.0f}% error')
 
 def note_test(file_a, file_b):
     notes_a = []
@@ -136,11 +135,9 @@ def note_test(file_a, file_b):
             b = ''
 
         if a != b:
-            print(f'MISMATCH @ {i}: {a} {b}')
             n_mismatch += 1
     print(
         f'{n_iter} pairs, {n_mismatch} mismatches, {n_mismatch/n_iter}% error')
 
-major_quals = ['', 'maj', '7', 'sus4', '9', '6', '13', 'maj9', '11', '69',
-    'maj7', '7sus4', '5', '7#5', 'mM7', 'aug']
-minor_quals = ['m', 'm7', 'm6', 'm9', 'm7b5', 'dim', 'dim6']
+major_quals = ['', 'maj', '6', 'maj9', 'maj7']
+minor_quals = ['m', 'm7', 'm6', 'm9', 'm7b5']
