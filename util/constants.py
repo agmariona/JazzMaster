@@ -8,13 +8,14 @@ F_WIN_LEN = 280 # 278
 T_WIN_FACTOR = 4
 T_WIN_LEN = 70
 TIME_STEP = F_WIN_LEN/(F_SAMP*T_WIN_FACTOR)
-PITCH_LOOK_AHEAD = 1
+PITCH_LOOK_AHEAD = 3
 ONSET_PROMINENCE = 1e4
 D = 0.025
 AGENT_INNER_WINDOW = 0.01
 AGENT_OUTER_WINDOW = [-0.02, 0.02]
 AGENT_MISS_PENALTY = 8
 RHYTHM_TEST_WINDOW = 0.13
+GAIN = 10
 
 PROJ_PATH = '/Users/agm/Documents/Harvard/ENG-SCI 100/JazzMaster/'
 
@@ -62,6 +63,7 @@ note_to_key = {
     'EN3': '\t',
     'FN3': 'q',
     'F#3': '2',
+    'GB3': '2',
     'GN3': 'w',
     'G#3': '3',
     'AB3': '3',
@@ -133,4 +135,27 @@ reference_songs = [
     'the_girl_from_ipanema_0.txt',
     'waltz_for_debby_0.txt',
     'yardbird_suite_0.txt'
+]
+
+reference_song_names = [
+    'Take the A Train',
+    'Satin Doll',
+    'Moanin',
+    'All of Me',
+    'Blue Monk',
+    'Donna Lee',
+    'For Sentimental Reasons',
+    'Nuages',
+    'How Deep is the Ocean',
+    'But Not for Me',
+    'How High the Moon',
+    'Lady Bird',
+    'Jelly Roll',
+    'Nagasaki',
+    'On Green Dolphin Street',
+    'Quizas Quizas Quizas',
+    'Round Midnight',
+    'The Girl from Ipanema',
+    'Waltz for Debby',
+    'Yardbird Suite'
 ]

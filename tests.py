@@ -22,8 +22,8 @@ if args.l:
     t.listen_test(sweep, args.l)
 
 if args.h:
-    print("Harmonic correctness:", end='')
-    t.harmonic_test(args.h)
+    print("Harmonic correctness: ", end='')
+    print(f'{t.harmonic_test(args.h)*100:.0f}% error')
 
 if args.r:
     print("Rhythmic correctness:", end='')

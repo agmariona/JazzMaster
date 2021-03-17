@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import queue
 from scipy import fft, signal
+import sys
 
 import util.constants as c
 import util.util as util
@@ -18,6 +19,7 @@ freq_hist = np.empty((0,), dtype=float)
 magn_hist = np.empty((0,), dtype=float)
 energy_hist = np.empty((0,), dtype=float)
 onset_hist = np.empty((0,), dtype=int)
+max_energy = 0
 
 ### Plotters ###
 
@@ -28,7 +30,7 @@ def plot_pitch(rfft, pitch, freq, magn, fname=None):
         ax.scatter(freq/1000, magn, color='r')
     ax.set_title(f'Single-Sided DFT of Audio Input')
     ax.set_ylabel('Magnitude')
-    ax.set_ylim([0,50])
+    ax.set_ylim([0,150])
     ax.set_xlabel('Frequency (kHz)')
 
     plt.tight_layout()
@@ -71,8 +73,8 @@ def plot_energy_with_onsets(fname=None):
         t_adjust = 0
 
     fig, ax = plt.subplots()
-    ax.plot(t[:current_energy.size], current_energy/1000, color='g')
-    ax.scatter(t[current_onsets-t_adjust], energy_hist[current_onsets]/1000,
+    ax.plot(t[:current_energy.size], current_energy, color='g')
+    ax.scatter(t[current_onsets-t_adjust], energy_hist[current_onsets],
         color='r')
     ax.set_title('Weighted Energy of Audio Input')
     ax.set_ylabel('Energy (Arbitrary Units)')
@@ -125,7 +127,7 @@ def sd_callback(indata, frames, time, status):
         pitch_data = indata[:, 0]
         onset_data = pitch_data.reshape(c.T_WIN_FACTOR, -1)
 
-        pitch_mag = pitch_rfft(pitch_data)
+        pitch_mag = c.GAIN * pitch_rfft(pitch_data)
         onset_mags = onset_rffts(onset_data)
         pitch_dq.put(pitch_mag)
         rfft_hist = np.append(rfft_hist, [pitch_mag], axis=0)
@@ -168,24 +170,44 @@ def update_pitch_hist():
     magn_hist = np.append(magn_hist, magn)
 
 def update_energy_hist():
-    global energy_hist
+    global energy_hist, max_energy
     onset_data = onset_dq.get()
     weights = np.arange(c.RFFT_N)**2
     weighted_energy = (1/c.RFFT_N) * np.sum(weights * onset_data**2)
     energy_hist = np.append(energy_hist, weighted_energy)
 
+def get_prominence(energy):
+    printing = 0
+    if energy < 1000:
+        if printing:
+            print('A')
+        return 100
+    elif energy < 30000:
+        if printing:
+            print('B')
+        return 1000
+    elif energy < 300000:
+        if printing:
+            print('C')
+        return 12000
+    elif energy < 1000000:
+        if printing:
+            print('D')
+        return 100000
+    else:
+        if printing:
+            print('E')
+        return 1000000
+
 def detect_onset(prominence):
     global onset_hist
     try:
-        start_index = onset_hist[-1]
+        start_index = min(onset_hist[-1], len(energy_hist)-1)
     except IndexError:
         start_index = 0
     current_hist = energy_hist[start_index:]
-    # Full: 5e4
-    current_onsets = signal.find_peaks(current_hist, prominence=prominence)[0]
-    # if current_onsets.size > 1:
-    #     print(f'\tDetected {current_onsets.size} onsets in one window.' \
-    #         'Won\'t be able to resolve pitch.')
+    current_onsets = signal.find_peaks(current_hist,
+        prominence=get_prominence(np.max(energy_hist)), wlen=50)[0]
     onset_hist = np.append(onset_hist, current_onsets + start_index)
 
 events_loaded = 0
@@ -196,11 +218,16 @@ def load_buffer(logging):
         pitch_hist.size > \
         (onset_hist[-1] // c.T_WIN_FACTOR + c.PITCH_LOOK_AHEAD):
         while onset_hist.size > (events_loaded+1):
-            pitch = ''
-            j = 0
-            while pitch == '':
-                pitch = pitch_hist[onset_hist[events_loaded] //
-                    c.T_WIN_FACTOR + c.PITCH_LOOK_AHEAD + j]
+            idx = onset_hist[events_loaded] // c.T_WIN_FACTOR \
+                + c.PITCH_LOOK_AHEAD
+            pitch = pitch_hist[idx]
+            if not pitch:
+                for i in range(0,c.PITCH_LOOK_AHEAD+1):
+                    pitch = pitch_hist[idx-i]
+                    if pitch != 'E6' and pitch != '':
+                        break
+                else:
+                    pitch = 'E6'
             if logging:
                 print(f'NOTE {pitch} {datetime.now().time()}')
             pitch = util.note_to_midi(pitch)
@@ -217,10 +244,18 @@ pitches_printed = 0
 def print_pitches():
     global pitches_printed
     if onset_hist.size > pitches_printed and \
-        pitch_hist.size > (onset_hist[-1] // c.T_WIN_FACTOR + 3):
+        pitch_hist.size > \
+        (onset_hist[-1] // c.T_WIN_FACTOR + 3):
         while onset_hist.size > pitches_printed:
-            print(
-                pitch_hist[onset_hist[pitches_printed] // c.T_WIN_FACTOR + 3])
+            idx = onset_hist[pitches_printed] // c.T_WIN_FACTOR # \
+            #     + c.PITCH_LOOK_AHEAD
+            # pitch = pitch_hist[idx]
+            # for i in range(4, -4, -1):
+            #     if pitch:
+            #         break
+            #     pitch = pitch_hist[min(idx+i, len(pitch_hist)-1)]
+            # print(f'NOTE {pitch} {datetime.now().time()}')
+            print(pitch_hist[idx-1:idx+10])
             pitches_printed += 1
 
 
@@ -239,7 +274,7 @@ def smooth_energy(energy):
 
 def get_peak_freq(magnitude, freqs):
     # magnitude = smooth_curve(magnitude)
-    peaks = signal.find_peaks(magnitude, prominence=4, distance=10)[0]
+    peaks = signal.find_peaks(magnitude, prominence=15, distance=10)[0]
     if peaks.size == 0:
         return None, 0
     max_peak = peaks[np.argmax(magnitude[peaks])]

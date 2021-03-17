@@ -78,8 +78,9 @@ def harmonic_test(logfile):
 
         total_notes += len(notes)
 
-    print('{:>8}'.format(f'{bad_notes}/{total_notes}\t'), end='')
-    print(f'{bad_notes/total_notes*100:.0f}% error')
+    # print('{:>8}'.format(f'{bad_notes}/{total_notes}\t'), end='')
+    # print(f'{bad_notes/total_notes*100:.0f}% error')
+    return bad_notes / total_notes
 
 def rhythmic_test(logfile):
     times = []
@@ -105,8 +106,9 @@ def rhythmic_test(logfile):
         nearest = util.nearest_multiple(ibi/2, time)
         if abs(time - nearest) > c.RHYTHM_TEST_WINDOW:
             mistimed_chords += 1
-    print('{:>8}'.format(f'{mistimed_chords}/{total_chords}\t'), end='')
-    print(f'{mistimed_chords/total_chords*100:.0f}% error')
+    # print('{:>8}'.format(f'{mistimed_chords}/{total_chords}\t'), end='')
+    # print(f'{mistimed_chords/total_chords*100:.0f}% error')
+    return mistimed_chords/total_chords
 
 def note_test(file_a, file_b):
     notes_a = []

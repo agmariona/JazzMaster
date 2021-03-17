@@ -80,11 +80,7 @@ def squeeze_harmony(harmony, duration):
     try:
         prev_chord, running_duration = harmony[0], duration[0]
     except IndexError:
-        print("\n\n\nSQUEEZE HARMONY ERROR")
-        print(f'HARMONY: {harmony}')
-        print(f'DURATION: {duration}')
-        print("\n\n\n")
-        exit()
+        return [], []
     for i in range(1, len(harmony)):
         if harmony[i] == prev_chord:
             running_duration += duration[i]

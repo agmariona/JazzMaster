@@ -5,17 +5,21 @@ import numpy as np
 from datetime import datetime
 
 import util.constants as c
+import util.tests as t
 
 parser = argparse.ArgumentParser(add_help=False)
-parser.add_argument('-h', nargs=2, type=str, help='run_histograms')
+parser.add_argument('-h', action='store_true', help='run histograms')
 parser.add_argument('data_input', type=str, help='path to input data')
 parser.add_argument('data_result', type=str, help='path to result data')
-parser.add_argument('-b', type=int, default=120, help='path to result data')
+parser.add_argument('-b', type=int, default=120, help='bpm')
+parser.add_argument('-v', type=str, default='mid', help='volume')
+parser.add_argument('-m', action='store_true', help='run harmonic')
+parser.add_argument('-r', action='store_true', help='run rhythmic')
 args = parser.parse_args()
 
-NEARBYS = {120: 0.6, 40: 1.5, 240: 0.4}
-OVERLAPS = {120: 0.4, 40: 1.0, 240: 0.2}
-
+NEARBYS = {120: 0.6, 40: 1.5, 240: 0.4, 60: 1.5}
+OVERLAPS = {120: 0.4, 40: 1.0, 240: 0.2, 60: 0.9}
+VOLS = {'soft': 'Quiet', 'mid': 'Medium', 'loud': 'Loud'}
 
 def process_test(data_input, data_result, bpm):
     input_notes = np.array([])
@@ -61,32 +65,128 @@ def process_test(data_input, data_result, bpm):
     return input_times, input_notes, correct_times, correct_notes, \
         incorrect_times, incorrect_notes
 
+def harmonic_hist():
+    ref_scores = []
+    scores = []
+    songs = c.reference_songs
+    labels = c.reference_song_names
+    for song in songs:
+        ref_scores.append(1-t.harmonic_test(c.PROJ_PATH +
+            f'data/reference_transcriptions/{song}'))
+        scores.append(1-t.harmonic_test(c.PROJ_PATH +
+            f'data/test_transcriptions/{song}'))
+
+    fig, ax = plt.subplots()
+    x = np.arange(len(songs))
+    width = 0.3
+    ax.set_title('Harmonic Correctness Scores across 20 Songs')
+    ax.plot(np.arange(-1, len(songs)+1), [0.9 for i in range(len(x)+2)],
+        color='r')
+    ax.bar(x - width/2, ref_scores, width, label='Reference Scores',
+        color='b')
+    ax.bar(x + width/2, scores, width, label='Test Scores',
+        color='g')
+    ax.set_ylabel('Correctness Score')
+    ax.set_xlim([-1, len(songs)])
+    ax.set_xticks(x)
+    ax.set_xticklabels(labels, rotation=45, ha='right')
+    ax.legend(bbox_to_anchor=(1.04, 0.5), loc='center left')
+
+    fig.tight_layout()
+    fig.set_size_inches(15, 5)
+    plt.show()
+
+def rhythmic_hist():
+    ref_scores = []
+    scores = []
+    songs = c.reference_songs
+    labels = c.reference_song_names
+    for song in songs:
+        ref_scores.append(1-t.rhythmic_test(c.PROJ_PATH +
+            f'data/reference_transcriptions/{song}'))
+        scores.append(1-t.rhythmic_test(c.PROJ_PATH +
+            f'data/test_transcriptions/{song}'))
+
+    fig, ax = plt.subplots()
+    x = np.arange(len(songs))
+    width = 0.3
+    ax.set_title('Rhythmic Correctness Scores across 20 Songs')
+    ax.plot(np.arange(-1, len(songs)+1), [0.9 for i in range(len(x)+2)],
+        color='r')
+    ax.bar(x - width/2, ref_scores, width, label='Reference Scores',
+        color='b')
+    ax.bar(x + width/2, scores, width, label='Test Scores',
+        color='g')
+    ax.set_ylabel('Correctness Score')
+    ax.set_xlim([-1, len(songs)])
+    ax.set_xticks(x)
+    ax.set_xticklabels(labels, rotation=45, ha='right')
+    ax.legend(bbox_to_anchor=(1.04, 0.5), loc='center left')
+
+    fig.tight_layout()
+    fig.set_size_inches(15, 5)
+    plt.show()
+
+
 if __name__ == '__main__':
     if args.h:
-        tempo = int(args.h[0])
-        volume = args.h[1]
         n_trials = 20
+        tempos = [40, 120, 240]
+        volumes = ['mid', 'loud']
 
-        correct_ratios = np.array([])
-        incorrect_ratios = np.array([])
+        correct_ratios = [[] for i in range(6)]
+        incorrect_ratios = [[] for i in range(6)]
 
-        for i in range(n_trials):
-            input_path = f'data/sweeps/{tempo}_{volume}_ref_{i}.txt'
-            result_path = f'data/sweeps/{tempo}_{volume}_{i}.txt'
-            i_t, i_n, c_t, c_n, inc_t, inc_n = process_test(input_path,
-                result_path, tempo)
-            correct_ratios = np.append(correct_ratios, c_n.size / i_n.size)
-            incorrect_ratios = np.append(incorrect_ratios, inc_n.size / i_n.size)
+        for k in range(3):
+            for j in range(2):
+                for i in range(n_trials):
+                    input_path = f'data/sweeps/{tempos[k]}_{volumes[j]}_ref_{i}.txt'
+                    result_path = f'data/sweeps/{tempos[k]}_{volumes[j]}_{i}.txt'
+                    i_t, i_n, c_t, c_n, inc_t, inc_n = process_test(input_path,
+                        result_path, tempos[k])
+                    correct_ratios[k*2+j].append(c_n.size / i_n.size)
+                    incorrect_ratios[k*2+j].append(inc_n.size / i_n.size)
 
-        print(correct_ratios)
-        print(incorrect_ratios)
+
+        # fig, ax = plt.subplots()
+        # labels = ['40 BPM, Medium', '40 BPM, Loud',
+        # '120 BPM, Medium', '120 BPM, Loud',
+        # '240 BPM, Medium', '240 BPM, Loud']
+        # ax.set_title(f'Ratio of Correctly Measured Notes across\n{n_trials} Trials for each Set of Parameters')
+        # ax.hist(correct_ratios, label=labels, align='mid', bins=np.arange(0.3,1.1,0.1), histtype='barstacked',
+        #     color=['lightcoral', 'darkred', 'lightblue', 'darkblue', 'lightgreen', 'darkgreen'])
+        # ax.legend(loc='best')
+        # ax.xaxis.set_major_locator(ticker.MultipleLocator(0.1))
+        # ax.set_ylabel('Number of Trials')
+        # ax.set_xlabel('Ratio of Correctly Measured Notes to Total Notes')
+        # fig.tight_layout()
+        # plt.show()
+
+        fig, ax = plt.subplots()
+        labels = ['40 BPM, Medium', '40 BPM, Loud',
+        '120 BPM, Medium', '120 BPM, Loud',
+        '240 BPM, Medium', '240 BPM, Loud']
+        ax.set_title(f'Ratio of Incorrectly Measured Notes across\n{n_trials} Trials for each Set of Parameters')
+        ax.hist(incorrect_ratios, label=labels, align='mid',
+        bins=np.arange(0.1,0.8,0.1), histtype='barstacked',
+            color=['lightcoral', 'darkred', 'lightblue', 'darkblue', 'lightgreen', 'darkgreen'])
+        ax.legend(loc='best')
+        ax.xaxis.set_major_locator(ticker.MultipleLocator(0.1))
+        ax.set_ylabel('Number of Trials')
+        ax.set_xlabel('Ratio of Incorrectly Measured Notes to Total Notes')
+        fig.tight_layout()
+        plt.show()
+    elif args.m:
+        harmonic_hist()
+    elif args.r:
+        rhythmic_hist()
     else:
         i_t, i_n, c_t, c_n, inc_t, inc_n = process_test(args.data_input,
             args.data_result, args.b)
 
         fig, ax = plt.subplots()
 
-        # ax.set_title('Frequency Sweep at 240 BPM')
+        ax.set_title(f'Frequency Sweep at {args.b} BPM, {VOLS[args.v]} Volume')
 
         ax.scatter(i_t, i_n/1e3, marker='o', color='k', label='Input Notes')
         ax.scatter(c_t, c_n/1e3, marker='o', color='b', label='Correctly Measured Notes')
@@ -102,5 +202,5 @@ if __name__ == '__main__':
         ax.yaxis.set_major_formatter(ticker.FormatStrFormatter('%.1f'))
         ax.set_ylabel('Frequency (kHz)')
 
-        plt.tight_layout()
+        fig.tight_layout()
         plt.show()

@@ -43,13 +43,7 @@ if __name__ == '__main__':
         parents=[parser])
     parser.add_argument(
         '-d', '--device', type=int, help='input device (numeric ID)')
-    parser.add_argument('-p', type=int, help='onset prominence', default=1e4)
-    # parser.add_argument(
-    #     '-b', '--blocksize', type=int, metavar='NSAMP', default=50,
-    #     help='block size (default %(default) samples)')
-    # parser.add_argument(
-    #     '-g', '--gain', type=float, default=10,
-    #     help='initial gain factor (default %(default)s)')
+    parser.add_argument('-p', type=int, help='onset prominence', default=2e4)
     args = parser.parse_args(remaining)
 
     with sd.InputStream(device=args.device, channels=1,
@@ -60,6 +54,6 @@ if __name__ == '__main__':
             h.detect_onset(args.p)
             h.print_pitches()
 
-            i += 1
-            if (i%10==0):
-                h.plot_energy_with_onsets()
+            # i += 1
+            # if (i%15==0):
+            #     h.plot_energy_with_onsets()
