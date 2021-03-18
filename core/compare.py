@@ -23,8 +23,8 @@ def get_matches(seq):
     next_matches = db.iloc[matches.index+c.N_NGRAM]
 
     if matches.empty:
-        print('Error: End of song.')
-        return None
+        # print('Error: End of song.')
+        return None, None
 
     return matches, next_matches
 

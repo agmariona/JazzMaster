@@ -2,6 +2,7 @@ import argparse
 from matplotlib import pyplot as plt
 from matplotlib import ticker
 import numpy as np
+from scipy.stats import mode
 from datetime import datetime
 
 import util.constants as c
@@ -15,6 +16,7 @@ parser.add_argument('-b', type=int, default=120, help='bpm')
 parser.add_argument('-v', type=str, default='mid', help='volume')
 parser.add_argument('-m', action='store_true', help='run harmonic')
 parser.add_argument('-r', action='store_true', help='run rhythmic')
+parser.add_argument('-d', action='store_true', help='run harmonic dist')
 args = parser.parse_args()
 
 NEARBYS = {120: 0.6, 40: 1.5, 240: 0.4, 60: 1.5}
@@ -64,6 +66,44 @@ def process_test(data_input, data_result, bpm):
 
     return input_times, input_notes, correct_times, correct_notes, \
         incorrect_times, incorrect_notes
+
+def harmonic_dist():
+    ref_scores = []
+    exp_scores = []
+    songs = c.reference_songs
+    bin_size = 0.05
+    box_y = 4
+
+    for song in songs:
+        ref_scores.append(1-t.harmonic_test(c.PROJ_PATH +
+            f'data/reference_transcriptions/{song}'))
+        exp_scores.append(1-t.harmonic_test(c.PROJ_PATH +
+            f'data/test_transcriptions/trial_1/{song}'))
+
+    mean_ref = np.mean(ref_scores)
+    mean_exp = np.mean(exp_scores)
+    var_ref = np.var(ref_scores)
+    var_exp = np.var(exp_scores)
+
+    fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True, sharey=True)
+    ax1.set_title('Reference Harmonic Correctness Scores')
+    ax1.text(0.03, 0.75, f'Mean: {mean_ref:.3f}\nVar: {var_ref:.3f}',
+        bbox=dict(facecolor='white', lw=0.8), transform=ax1.transAxes)
+    ax1.hist(ref_scores, bins=np.arange(0,1.0+bin_size,bin_size), color='g',
+        rwidth=0.9)
+    ax1.set_ylabel('Count')
+
+    ax2.set_title('Experimental Harmonic Correctness Scores')
+    ax2.text(0.03, 0.75, f'Mean: {mean_exp:.3f}\nVar: {var_exp:.3f}',
+        bbox=dict(facecolor='white', lw=0.8), transform=ax2.transAxes)
+    ax2.hist(exp_scores, bins=np.arange(0,1.0+bin_size,bin_size), color='b',
+        rwidth=0.9)
+    ax2.set_ylabel('Count')
+    ax2.set_xlabel('Correctness Score')
+    ax2.xaxis.set_major_locator(ticker.MultipleLocator(0.1))
+
+    fig.tight_layout()
+    plt.show()
 
 def harmonic_hist():
     ref_scores = []
@@ -180,6 +220,8 @@ if __name__ == '__main__':
         harmonic_hist()
     elif args.r:
         rhythmic_hist()
+    elif args.d:
+        harmonic_dist()
     else:
         i_t, i_n, c_t, c_n, inc_t, inc_n = process_test(args.data_input,
             args.data_result, args.b)

@@ -74,9 +74,10 @@ while True:
     ################
 
     ### GENERATE ###
-    harmony, duration = generate.generate_harmony(
-        matches, next_matches, initial)
-    # print(f"\t{harmony}")
+    if matches is not None:
+        harmony, duration = generate.generate_harmony(
+            matches, next_matches, initial)
+        # print(f"\t{harmony}")
     ################
 
     ### PLAY #######

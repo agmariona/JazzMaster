@@ -78,6 +78,9 @@ def harmonic_test(logfile):
 
         total_notes += len(notes)
 
+    if total_notes == 0:
+        print(logfile)
+
     # print('{:>8}'.format(f'{bad_notes}/{total_notes}\t'), end='')
     # print(f'{bad_notes/total_notes*100:.0f}% error')
     return bad_notes / total_notes
