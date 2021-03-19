@@ -59,7 +59,7 @@ def push_progression(harmony, durations):
         harmony_available = True
         harmony_cv.notify()
 
-def player(log):
+def player(log, sound):
     global harmony_available
     while True:
         with harmony_cv:
@@ -69,10 +69,11 @@ def player(log):
             with harmony_cv:
                 chord = harmony_buffer.pop(0)
             print(f'CHORD {chord[0]} {datetime.now().time()}')
-            if len(harmony_buffer) > 0:
-                play_chord(*chord)
-            else:
-                play_chord_async(chord[0], chord[1])
+            if sound:
+                if len(harmony_buffer) > 0:
+                    play_chord(*chord)
+                else:
+                    play_chord_async(chord[0], chord[1])
         harmony_available = False
 
 def squeeze_harmony(harmony, duration):

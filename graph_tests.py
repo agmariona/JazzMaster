@@ -73,12 +73,18 @@ def harmonic_dist():
     songs = c.reference_songs
     bin_size = 0.05
     box_y = 4
+    trial = 'trial_3_1'
 
     for song in songs:
-        ref_scores.append(1-t.harmonic_test(c.PROJ_PATH +
-            f'data/reference_transcriptions/{song}'))
-        exp_scores.append(1-t.harmonic_test(c.PROJ_PATH +
-            f'data/test_transcriptions/trial_1/{song}'))
+        logfile = c.PROJ_PATH + f'data/test_transcriptions/{trial}/{song}'
+        try:
+            f = open(logfile)
+            ref_scores.append(1-t.harmonic_test(c.PROJ_PATH +
+                f'data/reference_transcriptions/{song}'))
+            exp_scores.append(1-t.harmonic_test(c.PROJ_PATH +
+                f'data/test_transcriptions/{trial}/{song}'))
+        except FileNotFoundError:
+            continue
 
     mean_ref = np.mean(ref_scores)
     mean_exp = np.mean(exp_scores)

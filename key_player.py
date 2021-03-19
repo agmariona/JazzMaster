@@ -17,6 +17,7 @@ parser.add_argument('-b', type=int, default=120, help='tempo')
 parser.add_argument('-c', action='store_true', help='play chords')
 parser.add_argument('-s', action='store_false', help='silent mode')
 parser.add_argument('-n', action='store_false', help='don\'t press keys')
+parser.add_argument('-x', action='store_false', help='don\'t log')
 parser.add_argument('-w', action='store_true', help='write test logs')
 args = parser.parse_args()
 
@@ -53,7 +54,8 @@ for line in txt:
     duration = float(fractions.Fraction(duration))
 
     if args.c and chord != 'None' and chord != current_chord:
-        print(f'CHORD {chord} {datetime.now().time()}')
+        if args.x:
+            print(f'CHORD {chord} {datetime.now().time()}')
         current_chord = chord
         if args.s:
             threading.Thread(target=play.play_chord_async,
@@ -62,7 +64,8 @@ for line in txt:
     if note[0] == 'R':
         time.sleep(util.duration_to_sec(duration, bpm))
     else:
-        print(f'NOTE {util.canonical_note(note)} {datetime.now().time()}')
+        if args.x:
+            print(f'NOTE {util.canonical_note(note)} {datetime.now().time()}')
         if args.n:
             keyboard.press(c.note_to_key[note])
         time.sleep(util.duration_to_sec(duration, bpm))

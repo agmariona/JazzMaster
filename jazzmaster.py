@@ -27,10 +27,11 @@ parser = argparse.ArgumentParser(
 parser.add_argument(
     '-d', '--device', type=int, help='input device (numeric ID)', default=0)
 parser.add_argument('-m', action='store_true', help='MIDI input')
+parser.add_argument('-s', action='store_false', help='silent mode')
 parser.add_argument('-c', action='store_true', help='metronome click')
 parser.add_argument('-p', type=int, help='onset prominence', default=2e4)
 parser.add_argument('--listen', action='store_true', help='listen only')
-parser.add_argument('--log', action='store_true',
+parser.add_argument('-g', dest='log', action='store_true',
     help='print out testing information')
 args = parser.parse_args(remaining)
 
@@ -48,7 +49,7 @@ else:
     threading.Thread(target=listen.get_input,
         args=(args.device, pass_buffer, pass_ready, pass_cv, args.p, args.log)
         ).start()
-threading.Thread(target=play.player, args=(args.log,)).start()
+threading.Thread(target=play.player, args=(args.log, args.s)).start()
 if args.c:
     threading.Thread(target=play.click, args=(clock,)).start()
 tracker = bt.BeatTracker()

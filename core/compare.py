@@ -4,7 +4,7 @@ import fuzzyset
 import util.util as util
 import util.constants as c
 
-db = pd.read_pickle('resources/compare.db')
+db = pd.read_pickle(f'resources/compare_{c.N_NGRAM}.db')
 match_set = fuzzyset.FuzzySet(db.ngram)
 
 def get_matches(seq):
@@ -15,7 +15,7 @@ def get_matches(seq):
     # Information comes from *next* ngram
     to_drop = []
     for i, r in matches.iterrows():
-        if i+c.N_NGRAM > len(db):
+        if i+c.N_NGRAM >= len(db):
             to_drop.append(i)
         elif db.iloc[i].track != db.iloc[i+c.N_NGRAM].track:
             to_drop.append(i)

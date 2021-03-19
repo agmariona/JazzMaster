@@ -9,7 +9,7 @@ import time
 import util.constants as c
 import util.util as util
 
-HARMONIC_WINDOW=1
+HARMONIC_WINDOW=2
 
 def listen_test(sweep, bpm):
     time.sleep(1)

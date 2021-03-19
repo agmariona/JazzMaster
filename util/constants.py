@@ -1,6 +1,6 @@
 from scipy import fft
 
-N_NGRAM = 5
+N_NGRAM = 3
 F_SAMP = 8000 #2700
 FFT_N = 1024
 RFFT_N = FFT_N//2 + 1
@@ -135,7 +135,17 @@ reference_songs = [
     'round_midnight_0.txt',
     'the_girl_from_ipanema_0.txt',
     'waltz_for_debby_0.txt',
-    'yardbird_suite_0.txt'
+    'yardbird_suite_0.txt',
+    'giant_steps_0.txt',
+    'nature_boy_0.txt',
+    'my_romance_0.txt',
+    'west_end_blues_0.txt',
+    'valse_hot_0.txt',
+    'lover_0.txt',
+    'cry_me_a_river_0.txt',
+    'cousin_mary_0.txt',
+    'indian_summer_0.txt',
+    'russian_lullaby_0.txt'
 ]
 
 reference_song_names = [

@@ -4,13 +4,15 @@ import os
 import constants as c
 from util import note_txt_to_midi, duration_txt_to_midi
 
-NGRAM_SIZE = 5
 COLUMNS = ['ngram', 'harmony', 'duration', 'initial', 'track', 'position']
 
 db = pd.DataFrame(columns=COLUMNS)
 
 for filename in os.listdir(c.PROJ_PATH + 'library/txt/'):
     print(filename)
+    if filename == 'test_sweep.txt':
+        continue
+
     txt = open(c.PROJ_PATH+'library/txt/'+filename)
 
     notes = list()
@@ -27,10 +29,10 @@ for filename in os.listdir(c.PROJ_PATH + 'library/txt/'):
         chords.append(chord)
         durations.append(duration)
 
-    for i in range(len(notes) - NGRAM_SIZE + 1):
-        ngram = notes[i:i+NGRAM_SIZE]
-        harmony = chords[i:i+NGRAM_SIZE]
-        duration = durations[i:i+NGRAM_SIZE]
+    for i in range(len(notes) - c.N_NGRAM + 1):
+        ngram = notes[i:i+c.N_NGRAM]
+        harmony = chords[i:i+c.N_NGRAM]
+        duration = durations[i:i+c.N_NGRAM]
         initial = ngram[0]
 
         ngram[1:] = [ngram[i]-ngram[i-1] for i in range (1, len(ngram))]
@@ -46,4 +48,4 @@ for filename in os.listdir(c.PROJ_PATH + 'library/txt/'):
 
     txt.close()
 
-db.to_pickle('../resources/compare.db')
+db.to_pickle(c.PROJ_PATH + f'resources/compare_{c.N_NGRAM}.db')
