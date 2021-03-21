@@ -18,6 +18,7 @@ def get_input(pass_buffer, pass_ready, pass_cv, clock):
                 if current_note:
                     stop_note(current_note, clock)
                 start_note(msg.note, clock)
+                print(msg.note)
             elif msg.type == 'note_off':
                 if msg.note == current_note:
                     stop_note(current_note, clock)

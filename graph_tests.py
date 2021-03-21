@@ -17,6 +17,7 @@ parser.add_argument('-v', type=str, default='mid', help='volume')
 parser.add_argument('-m', action='store_true', help='run harmonic')
 parser.add_argument('-r', action='store_true', help='run rhythmic')
 parser.add_argument('-d', action='store_true', help='run harmonic dist')
+parser.add_argument('-f', action='store_true', help='run random dist')
 args = parser.parse_args()
 
 NEARBYS = {120: 0.6, 40: 1.5, 240: 0.4, 60: 1.5}
@@ -67,40 +68,71 @@ def process_test(data_input, data_result, bpm):
     return input_times, input_notes, correct_times, correct_notes, \
         incorrect_times, incorrect_notes
 
+def random_dist():
+    exp_scores = []
+    songs = c.reference_songs
+    bin_size = 0.05
+    box_y = 4
+
+    for song in songs:
+        ref_file = c.PROJ_PATH + f'data/references/trial_5_0/{song}'
+        try:
+            f = open(ref_file)
+        except FileNotFoundError:
+            continue
+        exp_score = 1-t.harmonic_random(ref_file)
+        exp_scores.append(exp_score)
+
+    mean_exp = np.mean(exp_scores)
+    var_exp = np.std(exp_scores)
+
+    fig, ax = plt.subplots()
+    ax.set_title('Reference Harmonic Correctness Scores')
+    ax.text(0.03, 0.75, f'Mean: {mean_exp:.3f}\nStd. Dev.: {var_exp:.3f}',
+       bbox=dict(facecolor='white', lw=0.8), transform=ax.transAxes)
+    ax.hist(exp_scores, bins=np.arange(0,1.0+bin_size,bin_size), color='g',
+       rwidth=0.9)
+    ax.set_ylabel('Count')
+
+    fig.tight_layout()
+    plt.show()
+
 def harmonic_dist():
     ref_scores = []
     exp_scores = []
     songs = c.reference_songs
     bin_size = 0.05
     box_y = 4
-    trial = 'trial_3_1'
+    trial = 'trial_4_0'
 
     for song in songs:
-        logfile = c.PROJ_PATH + f'data/test_transcriptions/{trial}/{song}'
+        ref_file = c.PROJ_PATH + f'data/references/{trial}/{song}'
+        exp_file = c.PROJ_PATH + f'data/tests/{trial}/{song}'
         try:
-            f = open(logfile)
-            ref_scores.append(1-t.harmonic_test(c.PROJ_PATH +
-                f'data/reference_transcriptions/{song}'))
-            exp_scores.append(1-t.harmonic_test(c.PROJ_PATH +
-                f'data/test_transcriptions/{trial}/{song}'))
+            f = open(exp_file)
         except FileNotFoundError:
             continue
+        ref_score = 1-t.harmonic_test(ref_file)
+        exp_score = 1-t.harmonic_test(exp_file, ref_file)
+        ref_scores.append(ref_score)
+        exp_scores.append(exp_score)
+        print(f'{song:30}: {ref_score:.2f}, {exp_score:.2f}')
 
     mean_ref = np.mean(ref_scores)
     mean_exp = np.mean(exp_scores)
-    var_ref = np.var(ref_scores)
-    var_exp = np.var(exp_scores)
+    var_ref = np.std(ref_scores)
+    var_exp = np.std(exp_scores)
 
     fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True, sharey=True)
     ax1.set_title('Reference Harmonic Correctness Scores')
-    ax1.text(0.03, 0.75, f'Mean: {mean_ref:.3f}\nVar: {var_ref:.3f}',
+    ax1.text(0.03, 0.75, f'Mean: {mean_ref:.3f}\nStd. Dev.: {var_ref:.3f}',
         bbox=dict(facecolor='white', lw=0.8), transform=ax1.transAxes)
     ax1.hist(ref_scores, bins=np.arange(0,1.0+bin_size,bin_size), color='g',
         rwidth=0.9)
     ax1.set_ylabel('Count')
 
     ax2.set_title('Experimental Harmonic Correctness Scores')
-    ax2.text(0.03, 0.75, f'Mean: {mean_exp:.3f}\nVar: {var_exp:.3f}',
+    ax2.text(0.03, 0.75, f'Mean: {mean_exp:.3f}\nStd. Dev.: {var_exp:.3f}',
         bbox=dict(facecolor='white', lw=0.8), transform=ax2.transAxes)
     ax2.hist(exp_scores, bins=np.arange(0,1.0+bin_size,bin_size), color='b',
         rwidth=0.9)
@@ -228,6 +260,8 @@ if __name__ == '__main__':
         rhythmic_hist()
     elif args.d:
         harmonic_dist()
+    elif args.f:
+        random_dist()
     else:
         i_t, i_n, c_t, c_n, inc_t, inc_n = process_test(args.data_input,
             args.data_result, args.b)
