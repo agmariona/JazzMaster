@@ -10,7 +10,7 @@ import time
 import util.constants as c
 import util.util as util
 
-HARMONIC_WINDOW=0
+HARMONIC_WINDOW=2
 
 def listen_test(sweep, bpm):
     time.sleep(1)
@@ -55,10 +55,11 @@ def harmonic_random(reffile):
 
     for line in lf:
         label, value, time = line.split()
-        if label != 'CHORD':
+        if random.randint(1,10) <= 3:
             continue
         time = datetime.strptime(time, '%H:%M:%S.%f')
-        chords.append((pychord.Chord(gen_rand_chord()), time))
+        chord = gen_rand_chord()
+        chords.append((pychord.Chord(chord), time))
 
     chord_groups = [[] for c in chords]
     for line in nf:
@@ -102,7 +103,7 @@ def harmonic_random(reffile):
             relevant_notes = [notes[j] for j in range(lower, upper+1)]
 
             for note in relevant_notes:
-                if note in chord.components() or musthe.Note(note) in scale:
+                if note in chord.components():# or musthe.Note(note) in scale:
                     break
             else:
                 bad_notes += 1

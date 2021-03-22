@@ -1,5 +1,6 @@
 import pandas as pd
 import fuzzyset
+import sys
 
 import util.util as util
 import util.constants as c
@@ -18,6 +19,8 @@ def get_matches(seq):
         if i+c.N_NGRAM >= len(db):
             to_drop.append(i)
         elif db.iloc[i].track != db.iloc[i+c.N_NGRAM].track:
+            to_drop.append(i)
+        elif db.iloc[i].track in c.reference_songs:
             to_drop.append(i)
     matches = matches.drop(to_drop)
     next_matches = db.iloc[matches.index+c.N_NGRAM]

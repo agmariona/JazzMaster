@@ -1,6 +1,6 @@
 from scipy import fft
 
-N_NGRAM = 4
+N_NGRAM = 5
 F_SAMP = 8000 #2700
 FFT_N = 1024
 RFFT_N = FFT_N//2 + 1
@@ -115,6 +115,29 @@ note_to_key = {
     'EN6': '/'
 }
 
+reference_song_names = [
+    'Take the A Train',
+    'Satin Doll',
+    'Moanin',
+    'All of Me',
+    'Blue Monk',
+    'Donna Lee',
+    'For Sentimental Reasons',
+    'Nuages',
+    'How Deep is the Ocean',
+    'But Not for Me',
+    'How High the Moon',
+    'Lady Bird',
+    'Jelly Roll',
+    'Nagasaki',
+    'On Green Dolphin Street',
+    'Quizas Quizas Quizas',
+    'Round Midnight',
+    'The Girl from Ipanema',
+    'Waltz for Debby',
+    'Yardbird Suite'
+]
+
 reference_songs = [
     'take_the_a_train_0.txt',
     'satin_doll_0.txt',
@@ -146,27 +169,4 @@ reference_songs = [
     'indian_summer_0.txt',
     'russian_lullaby_0.txt',
     'caravan_0.txt'
-]
-
-reference_song_names = [
-    'Take the A Train',
-    'Satin Doll',
-    'Moanin',
-    'All of Me',
-    'Blue Monk',
-    'Donna Lee',
-    'For Sentimental Reasons',
-    'Nuages',
-    'How Deep is the Ocean',
-    'But Not for Me',
-    'How High the Moon',
-    'Lady Bird',
-    'Jelly Roll',
-    'Nagasaki',
-    'On Green Dolphin Street',
-    'Quizas Quizas Quizas',
-    'Round Midnight',
-    'The Girl from Ipanema',
-    'Waltz for Debby',
-    'Yardbird Suite'
 ]

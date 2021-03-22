@@ -103,7 +103,7 @@ def harmonic_dist():
     songs = c.reference_songs
     bin_size = 0.05
     box_y = 4
-    trial = 'trial_4_0'
+    trial = 'trial_5_0'
 
     for song in songs:
         ref_file = c.PROJ_PATH + f'data/references/{trial}/{song}'
