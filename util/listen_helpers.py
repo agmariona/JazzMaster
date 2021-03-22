@@ -193,7 +193,7 @@ def get_prominence(energy):
     elif energy < 1000000:
         if printing:
             print('D')
-        return 100000
+        return 140000
     else:
         if printing:
             print('E')

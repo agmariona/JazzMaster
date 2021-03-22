@@ -115,13 +115,13 @@ def harmonic_random(reffile):
     return bad_notes / total_notes
 
 def harmonic_test(logfile, notefile=None):
-    chords = []
     lf = open(logfile)
     if notefile:
         nf = open(notefile)
     else:
         nf = open(logfile)
 
+    chords = []
     for line in lf:
         label, value, time = line.split()
         if label != 'CHORD':
@@ -182,29 +182,37 @@ def harmonic_test(logfile, notefile=None):
     # print(f'{bad_notes/total_notes*100:.0f}% error')
     return bad_notes / total_notes
 
-def rhythmic_test(logfile):
-    times = []
-    start_time = 0
-    with open(logfile) as f:
-        bpm = 120 # GENERALIZE
-        ibi = 60 / bpm
+def rhythmic_test(logfile, notefile=None):
+    lf = open(logfile)
+    if notefile:
+        nf = open(notefile)
+    else:
+        nf = open(logfile)
 
-        label, _, time = f.readline().split()
-        start_time = time
+    chord_times = []
+    for line in lf:
+        label, _, time = line.split()
         if label == 'CHORD':
-            times.append(datetime.strptime(time, "%H:%M:%S.%f"))
+            chord_times.append(datetime.strptime(time, "%H:%M:%S.%f"))
+    note_times = []
+    for line in nf:
+        label, _, time = line.split()
+        if label == 'NOTE':
+            note_times.append(datetime.strptime(time, "%H:%M:%S.%f"))
+    # times = np.array([(time - times[0]).total_seconds() for time in times])
 
-        for line in f:
-            label, _, time = line.split()
-            if label == 'CHORD':
-                times.append(datetime.strptime(time, "%H:%M:%S.%f"))
-    times = np.array([(time - times[0]).total_seconds() for time in times])
+    bpm = 120
+    ibi = 60 / bpm
 
     mistimed_chords = 0
-    total_chords = len(times)
-    for time in times:
-        nearest = util.nearest_multiple(ibi/2, time)
-        if abs(time - nearest) > c.RHYTHM_TEST_WINDOW:
+    total_chords = len(chord_times)
+    for c_time in chord_times:
+        nearest_n_time = util.find_closest(note_times, c_time)
+        delta_a = abs((c_time - nearest_n_time).total_seconds()) % (ibi/2)
+        delta_b = abs((c_time - nearest_n_time).total_seconds()) % (ibi/3)
+        delta_c = abs((c_time - nearest_n_time).total_seconds()) % (ibi/4)
+        delta = min(delta_a, delta_b, delta_c)
+        if delta > c.RHYTHM_TEST_WINDOW:
             mistimed_chords += 1
     # print('{:>8}'.format(f'{mistimed_chords}/{total_chords}\t'), end='')
     # print(f'{mistimed_chords/total_chords*100:.0f}% error')

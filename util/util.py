@@ -1,5 +1,6 @@
 import math
 import mido
+import bisect
 
 midi_note_inc = {
     'C': 0,
@@ -109,3 +110,16 @@ def nearest_multiple(m, x):
         return x
     else:
         return math.floor((x / m) + 0.5) * m
+
+def find_closest(l, v):
+    pos = bisect.bisect_left(l, v)
+    if pos == 0:
+        return l[0]
+    if pos == len(l):
+        return l[-1]
+    before = l[pos - 1]
+    after = l[pos]
+    if after - v < v - before:
+       return after
+    else:
+       return before

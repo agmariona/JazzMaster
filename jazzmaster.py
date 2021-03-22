@@ -14,7 +14,7 @@ import util.constants as c
 
 parser = argparse.ArgumentParser(add_help=False)
 parser.add_argument(
-    '-l', '--list-devices', action='store_true',
+    '-i', '--list-devices', action='store_true',
     help='show list of audio devices and exit')
 args, remaining = parser.parse_known_args()
 if args.list_devices:
@@ -30,7 +30,7 @@ parser.add_argument('-m', action='store_true', help='MIDI input')
 parser.add_argument('-s', action='store_false', help='silent mode')
 parser.add_argument('-c', action='store_true', help='metronome click')
 parser.add_argument('-p', type=int, help='onset prominence', default=2e4)
-parser.add_argument('--listen', action='store_true', help='listen only')
+parser.add_argument('-l', action='store_true', help='listen only')
 parser.add_argument('-g', dest='log', action='store_true',
     help='print out testing information')
 args = parser.parse_args(remaining)
@@ -66,7 +66,7 @@ while True:
     events = [(e[0], e[1], round(e[2]-e[1], ndigits=3)) for e in seq]
     notes, onsets, durations = util.unzip_sequence(events)
     initial = notes[0]
-    if args.listen:
+    if args.l:
         continue
     ################
 

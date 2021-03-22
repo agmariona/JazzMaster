@@ -22,7 +22,8 @@ args = parser.parse_args()
 
 NEARBYS = {120: 0.6, 40: 1.5, 240: 0.4, 60: 1.5}
 OVERLAPS = {120: 0.4, 40: 1.0, 240: 0.2, 60: 0.9}
-VOLS = {'soft': 'Quiet', 'mid': 'Medium', 'loud': 'Loud'}
+VOLS = {'soft': 'Quiet', 'medm': 'Medium', 'loud': 'Loud'}
+TRIAL = 'trial_5_0'
 
 def process_test(data_input, data_result, bpm):
     input_notes = np.array([])
@@ -103,11 +104,10 @@ def harmonic_dist():
     songs = c.reference_songs
     bin_size = 0.05
     box_y = 4
-    trial = 'trial_5_0'
 
     for song in songs:
-        ref_file = c.PROJ_PATH + f'data/references/{trial}/{song}'
-        exp_file = c.PROJ_PATH + f'data/tests/{trial}/{song}'
+        ref_file = c.PROJ_PATH + f'data/references/{TRIAL}/{song}'
+        exp_file = c.PROJ_PATH + f'data/tests/{TRIAL}/{song}'
         try:
             f = open(exp_file)
         except FileNotFoundError:
@@ -132,6 +132,51 @@ def harmonic_dist():
     ax1.set_ylabel('Count')
 
     ax2.set_title('Experimental Harmonic Correctness Scores')
+    ax2.text(0.03, 0.75, f'Mean: {mean_exp:.3f}\nStd. Dev.: {var_exp:.3f}',
+        bbox=dict(facecolor='white', lw=0.8), transform=ax2.transAxes)
+    ax2.hist(exp_scores, bins=np.arange(0,1.0+bin_size,bin_size), color='b',
+        rwidth=0.9)
+    ax2.set_ylabel('Count')
+    ax2.set_xlabel('Correctness Score')
+    ax2.xaxis.set_major_locator(ticker.MultipleLocator(0.1))
+
+    fig.tight_layout()
+    plt.show()
+
+def rhythmic_dist():
+    ref_scores = []
+    exp_scores = []
+    songs = c.reference_songs
+    bin_size = 0.05
+    box_y = 4
+
+    for song in songs:
+        ref_file = c.PROJ_PATH + f'data/references/{TRIAL}/{song}'
+        exp_file = c.PROJ_PATH + f'data/tests/{TRIAL}/{song}'
+        try:
+            f = open(exp_file)
+        except FileNotFoundError:
+            continue
+        ref_score = 1-t.rhythmic_test(ref_file)
+        exp_score = 1-t.rhythmic_test(exp_file, ref_file)
+        ref_scores.append(ref_score)
+        exp_scores.append(exp_score)
+        print(f'{song:30}: {ref_score:.2f}, {exp_score:.2f}')
+
+    mean_ref = np.mean(ref_scores)
+    mean_exp = np.mean(exp_scores)
+    var_ref = np.std(ref_scores)
+    var_exp = np.std(exp_scores)
+
+    fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True, sharey=True)
+    ax1.set_title('Reference Rhythmic Correctness Scores')
+    ax1.text(0.03, 0.75, f'Mean: {mean_ref:.3f}\nStd. Dev.: {var_ref:.3f}',
+        bbox=dict(facecolor='white', lw=0.8), transform=ax1.transAxes)
+    ax1.hist(ref_scores, bins=np.arange(0,1.0+bin_size,bin_size), color='g',
+        rwidth=0.9)
+    ax1.set_ylabel('Count')
+
+    ax2.set_title('Experimental Rhythmic Correctness Scores')
     ax2.text(0.03, 0.75, f'Mean: {mean_exp:.3f}\nStd. Dev.: {var_exp:.3f}',
         bbox=dict(facecolor='white', lw=0.8), transform=ax2.transAxes)
     ax2.hist(exp_scores, bins=np.arange(0,1.0+bin_size,bin_size), color='b',
@@ -208,9 +253,9 @@ def rhythmic_hist():
 
 if __name__ == '__main__':
     if args.h:
-        n_trials = 20
-        tempos = [40, 120, 240]
-        volumes = ['mid', 'loud']
+        n_trials = 3
+        tempos = [40]
+        volumes = ['soft', 'medm', 'loud']
 
         correct_ratios = [[] for i in range(6)]
         incorrect_ratios = [[] for i in range(6)]
@@ -218,8 +263,8 @@ if __name__ == '__main__':
         for k in range(3):
             for j in range(2):
                 for i in range(n_trials):
-                    input_path = f'data/sweeps/{tempos[k]}_{volumes[j]}_ref_{i}.txt'
-                    result_path = f'data/sweeps/{tempos[k]}_{volumes[j]}_{i}.txt'
+                    input_path = f'data/sweep_references/{volumes[j]}_{tempos[k]}_{i}.txt'
+                    result_path = f'data/sweep_tests/{volumes[j]}_{tempos[k]}_{i}.txt'
                     i_t, i_n, c_t, c_n, inc_t, inc_n = process_test(input_path,
                         result_path, tempos[k])
                     correct_ratios[k*2+j].append(c_n.size / i_n.size)
@@ -257,7 +302,7 @@ if __name__ == '__main__':
     elif args.m:
         harmonic_hist()
     elif args.r:
-        rhythmic_hist()
+        rhythmic_dist()
     elif args.d:
         harmonic_dist()
     elif args.f:

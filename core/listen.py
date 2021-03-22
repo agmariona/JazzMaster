@@ -54,6 +54,6 @@ if __name__ == '__main__':
             h.detect_onset(args.p)
             h.print_pitches()
 
-            # i += 1
-            # if (i%15==0):
-            #     h.plot_energy_with_onsets()
+            i += 1
+            if (i%15==0):
+                h.plot_energy_with_onsets()
